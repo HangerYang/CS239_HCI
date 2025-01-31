@@ -1,8 +1,11 @@
 # Before you get started with users [+4]
 1.	[+1] As a group, discuss any assumptions you have about your users or usage contexts.
 Consider aspects such as language, age, dis/ability, indoors/outdoors, alone vs. small group vs. family vs. large social gathering, etc. Write a summary of your discussion and a clear statement of your assumptions going into user research.
+
 2.	[+1] As a group, share any hunches you want to test or unknown/open-ended questions you want to answer through user research. Summarize your discussion, listing out 2-3 things you want to learn through user research.
+
 3.	[+1] Based on your discussion above, pick a method/s. Write  1-3 sentences justifying your methodological choice. You can employ multiple methods or just one. Make sure your response answers: How are these methods going to help you understand the problem you are trying to address? How will each method allow you (or prevent you) from reaching users of interest?
+
 4.	[+1] Write your user research protocol. Consider the following: 
 •	Recruitment strategy (e.g., whom to contact, how to contact, how many)
 •	Time and place for each user research session (e.g., “in the afternoons, in person, in a meeting room”)
@@ -18,24 +21,35 @@ Here are some rough guidelines for how many users you should reach:
 
 # After you get started with user research [+4]
 1.	[+2] Synthesize your user research into: 
-1.	[+1] Personas + Scenarios (at least one persona, one scenario)
-2.	[+1] Process map or more in-depth task analysis (at least one)
+  1.	[+1] Personas + Scenarios (at least one persona, one scenario)
+
+  2.	[+1] Process map or more in-depth task analysis (at least one)
+
 2.	[+1] Articulate a problem statement. A problem statement should illuminate the core of the issue you observe. Often, there is a contrastive tension between what users want to do and what their current tools require them to do. If you cannot articulate this yet, describe why you think you are not able to converge yet, what promising directions to follow up with additional user research and feedback might be, and what steps you think you should take next.
-1.	Tip: Rely on your process map. What is it telling you about what users want to do vs. have to do? 
-2.	Double check: Does your storyboard communicate/highlight this core tension?
+  1.	Tip: Rely on your process map. What is it telling you about what users want to do vs. have to do? 
+
+  2.	Double check: Does your storyboard communicate/highlight this core tension?
+
 3.	[+1] Storyboard of how your proposed system could address the core problem. This is where you begin to imagine a prototype to address the core problem you identified.
+
 4.	DEPTH (optional, not required) [+1]: Map out a design space of existing tools (production or research) for supporting similar tasks x users x domains. Your design space should include at least five other comparable tools.
+
 # Communicate what you have learned [+2]
 1.	[+2] Draft blog post summarizing user research. Your blog post draft must include:
 - A description of methods and key findings
 - A clear problem statement describing the crux of the issue you identified through user research. 
 - Your storyboard
 - At least 1 figure that is not from your storyboard
+
 1.	DEPTH (optional, not required) [+2]: Pick a model research paper with a formative study. Write your user research as a formative study section. In your submission, specify your model paper and why you chose it. 
 
 # Reflection [+3]
 1.	[+1] Look back at your assumptions (in the “Before you get started with users” section). Has your user research contradicted or challenged any of these assumptions? If so, which ones? How?
+
 2.	[+1] What does your user research tell you about what kinds of interactive systems/solutions are unlikely to be useful/successful? Why not? Any hypotheses about what features of an interactive system will be useful? Why?
+
 3.	[+1] What questions do you have about your users? What hunches or hypotheses do you have about promising solutions? What is one thing you can do to begin answering these questions? 
+
 4.	Did you use a generative AI tool for any part of this assignment? If so, which one and how?
+
 5.	How much time did you spend on this assignment as a group? Individually? 
