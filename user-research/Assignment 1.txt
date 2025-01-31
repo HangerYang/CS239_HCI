@@ -2,6 +2,8 @@
 1.	[+1] As a group, discuss any assumptions you have about your users or usage contexts.
 Consider aspects such as language, age, dis/ability, indoors/outdoors, alone vs. small group vs. family vs. large social gathering, etc. Write a summary of your discussion and a clear statement of your assumptions going into user research.
 
+Assumptions: Most will likely be have English as their native or second language. Generally age range of 20-30. 
+
 2.	[+1] As a group, share any hunches you want to test or unknown/open-ended questions you want to answer through user research. Summarize your discussion, listing out 2-3 things you want to learn through user research.
 
 3.	[+1] Based on your discussion above, pick a method/s. Write  1-3 sentences justifying your methodological choice. You can employ multiple methods or just one. Make sure your response answers: How are these methods going to help you understand the problem you are trying to address? How will each method allow you (or prevent you) from reaching users of interest?
