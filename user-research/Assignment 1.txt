@@ -1,8 +1,38 @@
 # Before you get started with users [+4]
 1.	[+1] As a group, discuss any assumptions you have about your users or usage contexts.
+
 Consider aspects such as language, age, dis/ability, indoors/outdoors, alone vs. small group vs. family vs. large social gathering, etc. Write a summary of your discussion and a clear statement of your assumptions going into user research.
 
-Assumptions Draft: Most will likely be have English as their native or second language. Generally age range of 20-30. Given people we plan on interviewing, probably most will hav learned their second language partly through exposure to people like their family members? Apps like Duolingo are also pretty popular, so they likely may have used it.
+During our group discussion, we had assumed that, given who we knew as candidates to interview and our own experiences, many of our users would be primarily have Enlgish as their native or their second language, with either one or two additional languages learned by them, most likely also spoken by their family members. We also expected our users to be around 20-30 years of age, and during their language learning period, utilized various apps and websites such as Duolingo to assist them.
+
+2.	[+1] As a group, share any hunches you want to test or unknown/open-ended questions you want to answer through user research. Summarize your discussion, listing out 2-3 things you want to learn through user research.
+
+In our group, we believed that the main strategies that our interviewees would use would be using various apps like Duolingo, consuming media content, or speaking with native speakers. We specifically wanted to learn if users utilized them, how they helped/did not help, and what specific properties they felt were lacking in these tools. Additionally, we were also interested in why they decided to learn secondary languages, since while some languages we felt were learned solely due to undergrad requirements, others may have been learned mainly due to their families speaking that language.
+
+In the end, the most important things we want to learn through user research are as follows:
+1. What resources they used while learning their language?
+2. What drawbacks/negatives they noticed if they used any resources and what they liked about the resources they used?
+3. Now that they have experience in language learning, what sort of resources would they like to have if learning another language?
+
+
+3.	[+1] Based on your discussion above, pick a method/s. Write  1-3 sentences justifying your methodological choice. You can employ multiple methods or just one. Make sure your response answers: How are these methods going to help you understand the problem you are trying to address? How will each method allow you (or prevent you) from reaching users of interest?
+
+Overall, we have decided to go forward with a mix of interviews and surveys as our methodology, since this will get us a good amount of information on language learning from the interviews while also supplementing and getting a wider breadth of information from the surveys. Both our surveys and interviews will include various questions (with interviews going more in-depth) about the types of languages users have learned, their strengths/weaknesses in each language, any resources they used and what they liked/disliked about them, and what they personally want out of a language learning resource. Given the fact that our interviews span from 30 minutes to 1 hour, the survey (which takes around 10 minutes to complete) is used as an alternative for people who perhaps cannot devote the time for an interview, letting us get valuable information from a wider range of people.
+
+4.	[+1] Write your user research protocol. Consider the following: 
+•	Recruitment strategy (e.g., whom to contact, how to contact, how many)
+•	Time and place for each user research session (e.g., “in the afternoons, in person, in a meeting room”)
+•	Each member’s role and responsibilities (e.g., For interviews: interviewer, note-taker, discussant, etc.)
+
+For our research protocol, we have prepared a set of interview and survey questions to provide to potential interviewees and surveyees. Questions include discussions on what languages users have learned and their proficiency in various modalities (reading, writing, speaking, listening), resources that they used, strengths and shortcomings of those resources, and what resources they would like to have if they are still learning/wished to learn a language again.
+
+For this project, we focused on recruiting a variety of individuals, starting with friends and family members that each team member knew, as well as encouraging them to send out the survey/requests for interview to their own friends. We also plan to gain potential interviews and survey responses from members of various language clubs at UCLA, given such members likely have experience or are interested in learning secondary languages. 
+
+Interviews are conducted through Zoom, phone call, or in-person, depending on the interviewees' preferences. The time interviews are conducted are also determined and agreed upon by the interviewer and interviewee.
+
+Overall, we plan to have at least 10 interviews, or, in the case of a mix of surveys and interviews, at least 7 interviews and 15 survey results. Our ideal scenario would be double that amount.
+
+For each interview, there is generally only one team member present. As such, each team member acts as the interviewer, note-taker, and discussant for the interviews that they hold.
 
 2.	[+1] As a group, share any hunches you want to test or unknown/open-ended questions you want to answer through user research. Summarize your discussion, listing out 2-3 things you want to learn through user research.
 
