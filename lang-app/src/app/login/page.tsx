@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword} from "firebase/auth";
 import { auth } from "../../../server/firebase";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function AuthPage() {
   const [email, setEmail] = useState("");
