@@ -6,8 +6,10 @@ import { useRouter } from 'next/navigation';
 const OrderFood = () => { 
   const [inputText, setInputText] = useState('');
   const [messages, setMessages] = useState<Array<{text: string, sender: 'user' | 'bot'}>>([
-    { text: "Hello! Welcome to our restaurant. What would you like to order today?", sender: 'bot' }  // Updated initial message
+    { text: "Hello! Welcome to our restaurant. What would you like to order today?", sender: 'bot' }
   ]);
+  const [conversationStage, setConversationStage] = useState('initial'); // Track conversation progress
+  const [orderItems, setOrderItems] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
 
@@ -17,14 +19,47 @@ const OrderFood = () => {
 
   const handleSendMessage = () => {
     if (inputText.trim()) {
-      setMessages(prev => [...prev, { text: inputText, sender: 'user' }]);
+      const userMessage = inputText.trim();
+      setMessages(prev => [...prev, { text: userMessage, sender: 'user' }]);
       
-      // Simulated bot response
       setTimeout(() => {
-        setMessages(prev => [...prev, { 
-          text: "Great choice! Would you like anything else with that?", 
-          sender: 'bot' 
-        }]);
+        let botResponse = "";
+
+        const userMessageLower = userMessage.toLowerCase();
+        const containsFood = /burger|salad|sandwich|fries|coffee|tea/i.test(userMessageLower);
+        const isGreeting = /^hi|^hello|^hey/i.test(userMessageLower);
+        const mentionsDone = /done|finished|that's all|that is all|complete|nothing else/i.test(userMessageLower);
+        
+        if (isGreeting && conversationStage === 'initial') {
+          botResponse = "Hello there! What would you like to order today? We have burgers, pizzas, pasta, and salads.";
+        } 
+        else if (containsFood) {
+          const foodItems = [
+            'burger', 'salad', 'sandwich', 'fries',
+            'drink', 'coffee', 'tea'
+          ];
+          
+          const mentionedFoods = foodItems.filter(food => 
+            userMessageLower.includes(food)
+          );
+          
+          if (mentionedFoods.length > 0) {
+            setOrderItems(prev => [...prev, ...mentionedFoods]);
+            if (conversationStage === 'initial' || conversationStage === 'ordering') {
+              botResponse = `Great choice! Would you like anything else with your ${mentionedFoods.join(', ')}?`;
+              setConversationStage('ordering');
+            } else if (conversationStage === 'extras') {
+              botResponse = "Perfect! Your order will be ready shortly. Is there anything else you'd like to know?";
+              setConversationStage('confirmation');
+            }
+          }
+        }
+        else if (mentionsDone || userMessageLower.includes('no')) {
+          if (orderItems.length > 0) {
+            botResponse = `Thank you for your order of ${orderItems.join(', ')}. Your food will be ready in about 15 minutes. `;
+          }
+        }
+        setMessages(prev => [...prev, { text: botResponse, sender: 'bot' }]);
       }, 1000);
 
       setInputText('');
@@ -62,7 +97,7 @@ const OrderFood = () => {
   };
 
   const handleHelp = () => {
-    router.push('/help');
+    router.push('/scenario-text/help');
   };
 
   return (
@@ -92,7 +127,7 @@ const OrderFood = () => {
         <div className="w-1/3 flex-shrink-0">
             <div className="w-full h-[70vh] relative mt-8">
             <Image
-                src="/icons/menu.png"
+                src="/icons/menu.jpg"
                 alt="Restaurant Menu"
                 fill
                 className="object-contain"
@@ -129,14 +164,14 @@ const OrderFood = () => {
             value={inputText}
             onChange={handleInputChange}
             onKeyPress={handleKeyPress}
-            placeholder="Type your order..."
+            placeholder="Type your response..."
             className="flex-1 bg-gray-700 text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button 
             onClick={handleSendMessage}
             className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg transition-colors duration-200 flex items-center justify-center"
           >
-            <Image src="/icons/send3.png" alt="Send" width={24} height={24} className="text-white"/>
+            <Image src="/icons/send.png" alt="Send" width={24} height={24} className="text-white"/>
           </button>
           <button 
             onClick={handleHelp}
