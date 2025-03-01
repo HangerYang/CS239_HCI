@@ -31,7 +31,7 @@ const OrderFood = () => {
         const mentionsDone = /done|finished|that's all|that is all|complete|nothing else/i.test(userMessageLower);
         
         if (isGreeting && conversationStage === 'initial') {
-          botResponse = "Hello there! What would you like to order today? We have burgers, pizzas, pasta, and salads.";
+          botResponse = "Hello there! What would you like to order today? We have burger, pizza, pasta, and salad.";
         } 
         else if (containsFood) {
           const foodItems = [

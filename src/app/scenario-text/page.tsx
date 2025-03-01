@@ -58,7 +58,7 @@ const ScenarioRoleplay = () => {
               <h1 className="text-lg font-bold text-gray-800">
                 <TypewriterEffect 
                   text="You chose the Scenario Roleplay, which topic would you like to practice?" 
-                  delay={50}
+                  delay={30}
                   startTyping={true}
                   onComplete={() => setFirstLineComplete(true)}
                 />

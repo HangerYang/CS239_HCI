@@ -16,12 +16,12 @@ const CustomScenario = () => {
   const handleSubmit = () => {
     if (scenario.trim()) {
       addScenario(scenario); 
-      router.push('/scenario'); 
+      router.push('/scenario-text'); 
     }
   };
 
   const handleBackClick = () => {
-    router.push('/scenario');
+    router.push('/scenario-text');
   };
 
   return (

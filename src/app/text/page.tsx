@@ -1,19 +1,29 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import TypewriterEffect from '../../components/TypewriterEffect';
 
 const TypingPractice = () => {
   const [firstLineComplete, setFirstLineComplete] = useState(false);
+  const [selectedMode, setSelectedMode] = useState('');
   const router = useRouter();
+
+  useEffect(() => {
+    const mode = localStorage.getItem('practiceMode');
+    if (mode) {
+      setSelectedMode(mode);
+    }
+  }, []);
 
   const handleBackClick = () => {
     router.push('/choose');
   };
+  
   const handleTypingClick = () => {
     router.push('/scenario-text');
   };
+  
   const handleTypingClick2 = () => {
     router.push('/conversation-type');
   };
@@ -35,6 +45,7 @@ const TypingPractice = () => {
           className="text-white"
         />
       </button>
+      
       <div className="mt-24 max-w-2xl mx-auto mb-8 bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="p-8">
           <div className="flex items-center space-x-6">
@@ -50,8 +61,8 @@ const TypingPractice = () => {
             <div className="flex flex-col">
               <h1 className="text-xl font-bold text-gray-800">
                 <TypewriterEffect 
-                  text="Now, how do you want to practice?" 
-                  delay={50}
+                  text={`You've selected ${selectedMode} Mode. Now, how do you want to practice?`}
+                  delay={30}
                   startTyping={true}
                   onComplete={() => setFirstLineComplete(true)}
                 />
@@ -61,7 +72,7 @@ const TypingPractice = () => {
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto flex flex-col gap-6 mt-24">
+      <div className="max-w-2xl mx-auto flex flex-col gap-6 mt-16">
         <button 
           onClick={handleTypingClick2}
           className="w-full bg-green-200 hover:bg-green-300 transition-colors duration-200 rounded-lg p-6 shadow-md">

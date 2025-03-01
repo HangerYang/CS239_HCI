@@ -87,7 +87,7 @@ const Interview = () => {
       </button>
 
       <div className="flex pt-24">
-        <div className="w-64 flex-shrink-0 flex justify-center items-center ml-4">
+        <div className="w-64 flex-shrink-0 flex justify-center items-center ml-10">
           <div className="w-48 h-48 relative">
             <Image
               src="/icons/interview.png"
@@ -99,7 +99,7 @@ const Interview = () => {
           </div>
         </div>
 
-        <div className="flex-grow flex flex-col max-w-4xl ml-10 mt-12">
+        <div className="flex-grow flex flex-col max-w-4xl ml-24 mt-12">
           <div className="h-[60vh] bg-gray-800 rounded-xl p-6 overflow-y-auto mb-4">
             <div className="flex flex-col space-y-4">
               {messages.map((message, index) => (
