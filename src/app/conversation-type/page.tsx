@@ -67,7 +67,7 @@ const ConversationPage = () => {
   };
 
   const handleHelp = () => {
-    router.push('/help');
+    router.push('/conversation-type/help');
   };
 
   return (

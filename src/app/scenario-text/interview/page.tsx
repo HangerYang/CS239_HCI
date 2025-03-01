@@ -18,8 +18,6 @@ const Interview = () => {
   const handleSendMessage = () => {
     if (inputText.trim()) {
       setMessages(prev => [...prev, { text: inputText, sender: 'user' }]);
-      
-      // Simulated bot response
       setTimeout(() => {
         setMessages(prev => [...prev, { 
           text: "That's interesting! Could you tell me about your experience in that field?", 
@@ -136,7 +134,7 @@ const Interview = () => {
               onClick={handleSendMessage}
               className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-lg transition-colors duration-200 flex items-center justify-center"
             >
-              <Image src="/icons/send3.png" alt="Send" width={24} height={24} className="text-white"/>
+              <Image src="/icons/send.png" alt="Send" width={24} height={24} className="text-white"/>
             </button>
             <button 
               onClick={handleHelp}

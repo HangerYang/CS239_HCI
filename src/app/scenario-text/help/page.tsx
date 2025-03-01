@@ -34,7 +34,7 @@ const HelpPage = () => {
             <div>
               <h2 className="text-xl font-semibold mb-2">Conversation Practice</h2>
               <p className="text-gray-600">
-                Practice your language skills in realistic scenarios. Type or speak your responses and get feedback to improve.
+                Practice your language skills in realistic scenarios. Type or speak your responses.
               </p>
             </div>
 

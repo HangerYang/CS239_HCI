@@ -8,7 +8,13 @@ const LanguagePractice = () => {
   const [firstLineComplete, setFirstLineComplete] = useState(false);
   const router = useRouter();
 
+  const handleSpeakingClick = () => {
+    localStorage.setItem('practiceMode', 'Speaking');
+    router.push('/text');
+  };
+  
   const handleTypingClick = () => {
+    localStorage.setItem('practiceMode', 'Typing');
     router.push('/text');
   };
 
@@ -39,7 +45,7 @@ const LanguagePractice = () => {
               <p className="mt-2 text-xl text-gray-600">
                 <TypewriterEffect 
                   text="How are we practicing today?"
-                  delay={50}
+                  delay={30}
                   startTyping={firstLineComplete}
                 />
               </p>
@@ -48,9 +54,11 @@ const LanguagePractice = () => {
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto flex flex-col gap-6 mt-24">
+      <div className="max-w-2xl mx-auto flex flex-col gap-6 mt-16">
         <div className="grid grid-cols-2 gap-6">
-          <button className="bg-green-200 hover:bg-green-300 transition-colors duration-200 rounded-lg p-8 shadow-md h-24"> {/* Increased height with h-24 and p-8 */}
+          <button 
+            onClick={handleSpeakingClick}
+            className="bg-green-200 hover:bg-green-300 transition-colors duration-200 rounded-lg p-8 shadow-md h-24"> {/* Increased height with h-24 and p-8 */}
             <span className="text-lg font-semibold text-gray-800">Speaking</span>
           </button>
           <button 
