@@ -1,8 +1,0 @@
-{
-  "/choose/page": "app/choose/page.js",
-  "/text/page": "app/text/page.js",
-  "/scenario-text/page": "app/scenario-text/page.js",
-  "/conversation-type/page": "app/conversation-type/page.js",
-  "/scenario-text/interview/page": "app/scenario-text/interview/page.js",
-  "/custom/page": "app/custom/page.js"
-}
