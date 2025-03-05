@@ -15,5 +15,6 @@ llm = pipeline(
 )
 os.makedirs(PROFILE_DIR, exist_ok=True)
 os.makedirs(SOUND_RESPONSE_DIR, exist_ok=True)
+# user input to the website 
 username = input("Enter your username: ").strip()
 talk_agent(username, llm)
