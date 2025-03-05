@@ -21,8 +21,8 @@ export default function Dashboard() {
 
   return user ? (
     <div>
-      <h1 className="text-xl font-semibold text-center mb-4">Welcome, {user.email}!</h1>
-      <button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" onClick={() => signOut(auth)}>Logout</button>
+      <h1 className="text-xl font-semibold text-center mb-4">Welcome, {user.username}!</h1>
+      <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" onClick={() => signOut(auth)}>Logout</button>
     </div>
   ) : (
     <p>Loading...</p>
