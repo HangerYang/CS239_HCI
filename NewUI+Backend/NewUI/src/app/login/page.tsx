@@ -47,7 +47,10 @@ export default function AuthPage() {
       style={{ backgroundImage: "url('/icons/background1.jpg')", backgroundSize: "cover" }}
     >
       <div className="max-w-md w-full bg-white rounded-xl shadow-2xl overflow-hidden">
+        
         <div className="p-8">         
+        <div className = "text-center text-3xl p-4"> Chatty </div>
+
           {error && (
             <div className="bg-red-50 text-red-600 rounded-lg p-3 mb-4 text-sm flex items-center">
               <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -55,8 +58,7 @@ export default function AuthPage() {
               </svg>
               {error}
             </div>
-          )}
-          
+          )}         
           <div className="space-y-4">
             {!isLogin && (
               <div>
@@ -134,6 +136,16 @@ export default function AuthPage() {
                 className="text-[#008080] hover:text-green-800 font-medium transition-colors duration-200"
               >
                 {isLogin ? "Need an account? Sign up" : "Already have an account? Login"}
+              </button>
+            </div>
+            <div className="text-center mt-6"> 
+            <button
+                onClick={() => {
+                  router.push("/")
+                }}
+                className="text-[#008080] hover:text-green-800 font-medium transition-colors duration-200"
+              >
+                Proceed as Guest
               </button>
             </div>
           </div>
