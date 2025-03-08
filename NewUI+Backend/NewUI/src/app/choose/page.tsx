@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import TypewriterEffect from '../../components/TypewriterEffect';
+import NavBar from '@/components/NavBar';
 import { auth } from "../../../server/firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { getUserProfile } from '@/services/api';
@@ -114,6 +115,8 @@ const ChoosePage = () => {
       className="min-h-screen relative bg-cover bg-center p-8" 
       style={{ backgroundImage: "url('/icons/background1.jpg')" }}
     >
+      <div className = "pl-9"><NavBar></NavBar> </div>
+      
       <div className="absolute top-8 left-8 z-10" ref={profileMenuRef}>
         <button 
           onClick={() => setShowProfileMenu(!showProfileMenu)}
@@ -173,19 +176,6 @@ const ChoosePage = () => {
           </div>
         )}
       </div>
-      
-      <button 
-        onClick={handleBackClick}
-        className="absolute top-8 left-24 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 flex items-center justify-center"
-      >
-        <Image
-          src="/icons/back.png"
-          alt="Back"
-          width={24}
-          height={24}
-          className="text-white"
-        />
-      </button>
       
       <div className="mt-24 max-w-2xl mx-auto mb-8 bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="p-8">

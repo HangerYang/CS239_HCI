@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { auth } from "../../../server/firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { sendChatMessage, getSuggestions, setScenario } from '@/services/api';
+import Dictionary from '@/components/Dictionary';
 
 interface ChatResponse {
   response: string;
@@ -494,6 +495,9 @@ const ConversationPage = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <Dictionary></Dictionary>
       </div>
       
       {showModal && (

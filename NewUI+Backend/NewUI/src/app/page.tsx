@@ -110,7 +110,13 @@ const MainPage = () => {
 
   return (
     <div className="min-h-screen bg-black p-8" style={{ backgroundImage: "url('/icons/background1.jpg')" }}>
-      <div className="mt-24 max-w-2xl mx-auto mb-8 bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="flex justify-center mt-1">
+    <div className="bg-white text-black text-4xl font-bold py-6 px-12 rounded-2xl shadow-lg">
+      Guest Login
+    </div>
+  </div>
+
+      <div className="mt-12 max-w-2xl mx-auto mb-8 bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="p-8">
           <div className="flex items-center space-x-6">
             <div className="w-24 h-24 relative flex-shrink-0">
