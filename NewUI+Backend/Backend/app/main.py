@@ -14,7 +14,7 @@ from utils import talk_agent
 from transformers import pipeline, AutoTokenizer,AutoModelForCausalLM
 from transformers.generation.utils import GenerationConfig
 import os
-from prompts import SOUND_RESPONSE_DIR, PROFILE_DIR
+from prompts import SOUND_RESPONSE_DIR, PROFILE_DIR, LANGUAGE_MAP
 dotenv.load_dotenv()
 
 # Add the parent directory to path so we can import utils
@@ -41,18 +41,17 @@ app.add_middleware(
 # Mount static files for audio
 app.mount("/audio", StaticFiles(directory=SOUND_RESPONSE_DIR), name="audio")
 
-tokenizer = AutoTokenizer.from_pretrained("OrionStarAI/Orion-14B-Chat", use_fast=False, trust_remote_code=True, cache_dir="/home/hyang/CS239/.cache" )
+tokenizer = AutoTokenizer.from_pretrained("OrionStarAI/Orion-14B-Chat", use_fast=False, trust_remote_code=True, cache_dir="/home/hyang/CS239_new/.cache" )
 model = AutoModelForCausalLM.from_pretrained(
     "OrionStarAI/Orion-14B-Chat",
     device_map="auto",
     torch_dtype=torch.bfloat16,
     trust_remote_code=True,
-    cache_dir="/home/hyang/CS239/.cache"
+    cache_dir="/home/hyang/CS239_new/.cache"
 )
 
 # Load generation configuration from pretrained model
 generation_config = GenerationConfig.from_pretrained("OrionStarAI/Orion-14B-Chat")
-tokenizer = AutoTokenizer.from_pretrained("OrionStarAI/Orion-14B-Chat", use_fast=False, trust_remote_code=True, cache_dir="/home/hyang/CS239/.cache" )
 llm = pipeline(
     "text-generation",
     model=model,
@@ -123,10 +122,11 @@ async def root():
 
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
+    # this is only called when the user start inputing
     global llm
     if llm is None:
         llm = init_llm()
-    
+    print(llm)
     username = request.username
     message = request.message
     language = request.language
@@ -134,14 +134,17 @@ async def chat(request: ChatRequest):
     # print(language)
     # Load user profile
     user_profile = load_user_profile(username)
-    
+    # if request.scenario in DEFAULT_SCENARIOS.keys():
+    #     user_profile["scenario"] = DEFAULT_SCENARIOS[request.scenario]["desc"]
+    #     user_profile["ai_role"] = DEFAULT_SCENARIOS[request.scenario]["role"]
+
     # Update scenario if provided
-    if request.scenario:
-        user_profile["scenario"] = request.scenario
+    # if request.scenario:
+    #     user_profile["scenario"] = request.scenario
     
     # Update AI role if provided
-    if request.ai_role:
-        user_profile["ai_role"] = request.ai_role
+    # if request.ai_role:
+    #     user_profile["ai_role"] = request.ai_role
     
     # if request.language:
     #     user_profile["language"] = request.language
@@ -163,10 +166,13 @@ async def chat(request: ChatRequest):
     formatted_history += f"User: {message}\n"
     
     # Create the prompt
-    content = f"""You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}
-    Continue the conversation with you roleplaying as the assistant role using {language}. Only provide your own response. You must be friendly to the user.
-    The chat history is as followed: {formatted_history}"""
+    content = f"""You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}.
+    Continue the conversation with you roleplaying as the {user_profile['ai_role']} using only {LANGUAGE_MAP[language]}. You are strictly prohibited from using any other language.
+    No matter what language the user inputs, you must always respond exclusively in {LANGUAGE_MAP[language]}.
+    The chat history is as follows: {formatted_history}"""
+
     formatted_prompt = [{"role": "user", "content": content}]
+    print(formatted_prompt)
     # Generate response
     response = llm(
     formatted_prompt,
@@ -178,9 +184,15 @@ async def chat(request: ChatRequest):
     max_new_tokens=100,
 )[0]['generated_text'][1]["content"]
     
-    # Handle empty response
     if not response:
-        response = "I'm thinking about what to say. Could you please repeat your question?"
+        if language == 'en':
+            response = "I'm thinking about what to say. Could you please repeat your question?"
+        elif language in ('zh', 'zh-CN', 'zh-TW'):
+            response = "我正在思考该怎么回答。请您再问一次好吗？"
+        elif language == 'ja':
+            response = "何を言うべきか考えています。もう一度質問していただけますか？"
+        else:
+            response = "I'm thinking about what to say. Could you please repeat your question?" 
     
     # Update conversation history
     user_profile["chat_history"].append({

@@ -1,0 +1,13 @@
+{
+    "username": "k",
+    "scenario": "The user is in a job interview for a software engineering position.",
+    "chat_history": [
+        {
+            "user": "\u4f60\u597d",
+            "ai": "Hello\uff01 How can I assist you today? Is there anything specific you need help with or a question you'd like me to answer regarding the job interview process or software engineering positions?",
+            "timestamp": "2025-03-08T12:26:00.645930"
+        }
+    ],
+    "lesson": [],
+    "ai_role": "An interviewer"
+}

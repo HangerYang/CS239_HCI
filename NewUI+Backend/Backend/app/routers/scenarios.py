@@ -29,19 +29,22 @@ class ScenarioResponse(BaseModel):
 async def set_scenario(request: ScenarioRequest):
     # Get llm
     llm = init_llm()
-    
+    print(llm)
     username = request.username
     scenario = request.scenario
-    
+    # print("Here")
+    # print(request)
     # Load user profile
     user_profile = load_user_profile(username)
-    
-    # Update scenario
-    user_profile["scenario"] = scenario
-    
-    # Infer AI role based on scenario
-    ai_role = infer_ai_role(scenario, llm)
-    user_profile["ai_role"] = ai_role
+    if request.scenario in DEFAULT_SCENARIOS.keys():
+        user_profile["scenario"] = DEFAULT_SCENARIOS[request.scenario]["desc"]
+        user_profile["ai_role"] = DEFAULT_SCENARIOS[request.scenario]["role"]
+    else:
+        # Update scenario
+        user_profile["scenario"] = scenario
+        # Infer AI role based on scenario
+        ai_role = infer_ai_role(scenario, llm)
+        user_profile["ai_role"] = ai_role
     
     # Reset chat history for new scenario
     user_profile["chat_history"] = []
@@ -50,8 +53,8 @@ async def set_scenario(request: ScenarioRequest):
     save_user_profile(user_profile)
     
     return {
-        "scenario": scenario,
-        "ai_role": ai_role
+        "scenario": user_profile["scenario"],
+        "ai_role": user_profile["ai_role"]
     }
 
 @router.get("/scenarios")

@@ -2,66 +2,66 @@ import re
 import emoji
 import os
 import json
-import time
-import tempfile
-import queue
-import sys
+# import time
+# import tempfile
+# import queue
+# import sys
 from pdb import set_trace as breakpoint
 from gtts import gTTS
 from prompts import PROFILE_DIR, DEFAULT_SCENARIOS, SOUND_RESPONSE_DIR
-import sounddevice as sd
-import soundfile as sf
-from pynput.keyboard import Key, Listener
+# import sounddevice as sd
+# import soundfile as sf
+# from pynput.keyboard import Key, Listener
 import speech_recognition as sr
 from deep_translator import GoogleTranslator
-import wavio as wv
-import numpy as np
+# import wavio as wv
+# import numpy as np
 
 freq = 41400
 channels = 1
 
 #Record Functions
-def record_continue():
-    #Setup Keyboard
-    recording = False
-    def on_press(key):
-        nonlocal recording
-        if key == Key.shift:
-            recording = True
+# def record_continue():
+#     #Setup Keyboard
+#     recording = False
+#     def on_press(key):
+#         nonlocal recording
+#         if key == Key.shift:
+#             recording = True
         
     
-    def on_release(key):
-        nonlocal recording
-        if key == Key.shift:
-            recording = False
-    listener =Listener(on_press = on_press, on_release = on_release)
-    listener.start()
+#     def on_release(key):
+#         nonlocal recording
+#         if key == Key.shift:
+#             recording = False
+#     listener =Listener(on_press = on_press, on_release = on_release)
+#     listener.start()
 
-    #Setup Audio
-    q = queue.Queue()
-    #Variables
-    freq = 48000
-    channels = 1
+#     #Setup Audio
+#     q = queue.Queue()
+#     #Variables
+#     freq = 48000
+#     channels = 1
     
-    def callback(indata, frames, time, status):
-        """This is called (from a separate thread) for each audio block."""
-        if status:
-            print(status, file=sys.stderr)
-        q.put(indata.copy())
+#     def callback(indata, frames, time, status):
+#         """This is called (from a separate thread) for each audio block."""
+#         if status:
+#             print(status, file=sys.stderr)
+#         q.put(indata.copy())
 
-    print("Hold shift to record. Release to end")
-    while not recording:
-        time.sleep(0.1)
-    print("Recording now!")
-    # Make sure the file is opened before recording anything:
-    with sf.SoundFile('record.wav', mode='w', samplerate=freq, channels=1) as file: #mode 'w' truncates file
-        with sd.InputStream(samplerate=freq, channels=1, callback=callback):
-            print('#' * 80)
-            print('Release shift to stop the recording')
-            print('#' * 80)
-            while recording:
-                file.write(q.get())
-        file.close()
+#     print("Hold shift to record. Release to end")
+#     while not recording:
+#         time.sleep(0.1)
+#     print("Recording now!")
+#     # Make sure the file is opened before recording anything:
+#     with sf.SoundFile('record.wav', mode='w', samplerate=freq, channels=1) as file: #mode 'w' truncates file
+#         with sd.InputStream(samplerate=freq, channels=1, callback=callback):
+#             print('#' * 80)
+#             print('Release shift to stop the recording')
+#             print('#' * 80)
+#             while recording:
+#                 file.write(q.get())
+#         file.close()
 
 #Note, original_lang and translate_lang follow ISO tags
 def transcribe(original_lang, translate_lang):
@@ -115,13 +115,15 @@ def save_user_profile(user_profile):
 
 
 def infer_ai_role(scenario_description, llm): # returns suggestions
-    prompt = f"Based on the following scenario, what role should the AI play?\n\nScenario: {scenario_description}\n\nAI Role:"
-    print(prompt)
+    content = f"Based on the following scenario, what role should the AI play?\n\nScenario: {scenario_description}\n\nAI Role:"
+    # print("what " + scenario_description + " the hell")
+    formatted_prompt = [{"role": "user", "content": content}]
     response = llm(
-        prompt,
+        formatted_prompt,
         do_sample=False, 
-        max_new_tokens=10,
-    )[0]['generated_text'].split("AI Role:")[-1].strip()
+        max_new_tokens=100,
+    )[0]['generated_text'][1]["content"]
+    print(response)
     #print("AI ROLE RESPONSE")
     #print(response)
     return response if response else "assistant" 
