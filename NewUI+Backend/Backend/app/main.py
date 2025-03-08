@@ -9,7 +9,12 @@ import sys
 import uuid
 from datetime import datetime
 import dotenv
-
+import torch
+from utils import talk_agent
+from transformers import pipeline, AutoTokenizer,AutoModelForCausalLM
+from transformers.generation.utils import GenerationConfig
+import os
+from prompts import SOUND_RESPONSE_DIR, PROFILE_DIR
 dotenv.load_dotenv()
 
 # Add the parent directory to path so we can import utils
@@ -36,8 +41,26 @@ app.add_middleware(
 # Mount static files for audio
 app.mount("/audio", StaticFiles(directory=SOUND_RESPONSE_DIR), name="audio")
 
-# Global variable for LLM model
-llm = None
+tokenizer = AutoTokenizer.from_pretrained("OrionStarAI/Orion-14B-Chat", use_fast=False, trust_remote_code=True, cache_dir="/home/hyang/CS239/.cache" )
+model = AutoModelForCausalLM.from_pretrained(
+    "OrionStarAI/Orion-14B-Chat",
+    device_map="auto",
+    torch_dtype=torch.bfloat16,
+    trust_remote_code=True,
+    cache_dir="/home/hyang/CS239/.cache"
+)
+
+# Load generation configuration from pretrained model
+generation_config = GenerationConfig.from_pretrained("OrionStarAI/Orion-14B-Chat")
+tokenizer = AutoTokenizer.from_pretrained("OrionStarAI/Orion-14B-Chat", use_fast=False, trust_remote_code=True, cache_dir="/home/hyang/CS239/.cache" )
+llm = pipeline(
+    "text-generation",
+    model=model,
+    tokenizer=tokenizer,
+    device_map="auto",
+    torch_dtype=torch.bfloat16,
+    config=generation_config
+)
 
 # API models
 class ChatRequest(BaseModel):
@@ -107,7 +130,8 @@ async def chat(request: ChatRequest):
     username = request.username
     message = request.message
     language = request.language
-    
+    # language = "zh-CN"
+    # print(language)
     # Load user profile
     user_profile = load_user_profile(username)
     
@@ -119,6 +143,8 @@ async def chat(request: ChatRequest):
     if request.ai_role:
         user_profile["ai_role"] = request.ai_role
     
+    # if request.language:
+    #     user_profile["language"] = request.language
     # Make sure we have required fields
     if not user_profile.get("scenario"):
         raise HTTPException(status_code=400, detail="Scenario not set for this user")
@@ -137,24 +163,20 @@ async def chat(request: ChatRequest):
     formatted_history += f"User: {message}\n"
     
     # Create the prompt
-    formatted_prompt = f"""
-    <s>[INST] <<SYS>>
-    You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}
-    Continue the conversation with you roleplaying as the assistant role. Only provide your own response. You must be friendly to the user.
-    The chat history is as followed: {formatted_history}
-    <</SYS>>
-    [/INST]"""
-    
+    content = f"""You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}
+    Continue the conversation with you roleplaying as the assistant role using {language}. Only provide your own response. You must be friendly to the user.
+    The chat history is as followed: {formatted_history}"""
+    formatted_prompt = [{"role": "user", "content": content}]
     # Generate response
     response = llm(
-        formatted_prompt,
-        do_sample=True,
-        top_k=50,
-        top_p=0.7,
-        num_return_sequences=1,
-        repetition_penalty=1.1,
-        max_new_tokens=100,
-    )[0]['generated_text'].split('[/INST]')[-1].strip()
+    formatted_prompt,
+    do_sample=True,
+    top_k=50,
+    top_p=0.7,
+    num_return_sequences=1,
+    repetition_penalty=1.1,
+    max_new_tokens=100,
+)[0]['generated_text'][1]["content"]
     
     # Handle empty response
     if not response:
