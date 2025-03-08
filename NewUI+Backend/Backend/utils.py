@@ -84,7 +84,7 @@ def transcribe(original_lang, translate_lang):
         exit()
 
     translated = GoogleTranslator(source=original_lang, target=translate_lang).translate(text)
-    return text, translated
+    return text, translated #Returns both the transcribed text and the translated text
 
 def clean_text(text):
     text = re.sub(r'\*.*?\*', '', text)
