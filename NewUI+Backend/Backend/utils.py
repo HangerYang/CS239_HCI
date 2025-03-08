@@ -2,9 +2,89 @@ import re
 import emoji
 import os
 import json
+import time
+import tempfile
+import queue
+import sys
 from pdb import set_trace as breakpoint
 from gtts import gTTS
 from prompts import PROFILE_DIR, DEFAULT_SCENARIOS, SOUND_RESPONSE_DIR
+import sounddevice as sd
+import soundfile as sf
+from pynput.keyboard import Key, Listener
+import speech_recognition as sr
+from deep_translator import GoogleTranslator
+import wavio as wv
+import numpy as np
+
+freq = 41400
+channels = 1
+
+#Record Functions
+def record_continue():
+    #Setup Keyboard
+    recording = False
+    def on_press(key):
+        nonlocal recording
+        if key == Key.shift:
+            recording = True
+        
+    
+    def on_release(key):
+        nonlocal recording
+        if key == Key.shift:
+            recording = False
+    listener =Listener(on_press = on_press, on_release = on_release)
+    listener.start()
+
+    #Setup Audio
+    q = queue.Queue()
+    #Variables
+    freq = 48000
+    channels = 1
+    
+    def callback(indata, frames, time, status):
+        """This is called (from a separate thread) for each audio block."""
+        if status:
+            print(status, file=sys.stderr)
+        q.put(indata.copy())
+
+    print("Hold shift to record. Release to end")
+    while not recording:
+        time.sleep(0.1)
+    print("Recording now!")
+    # Make sure the file is opened before recording anything:
+    with sf.SoundFile('record.wav', mode='w', samplerate=freq, channels=1) as file: #mode 'w' truncates file
+        with sd.InputStream(samplerate=freq, channels=1, callback=callback):
+            print('#' * 80)
+            print('Release shift to stop the recording')
+            print('#' * 80)
+            while recording:
+                file.write(q.get())
+        file.close()
+
+#Note, original_lang and translate_lang follow ISO tags
+def transcribe(original_lang, translate_lang):
+    recognizer = sr.Recognizer()
+
+    # Create audio file instance from the original file
+    try:
+        audio_ex = sr.AudioFile('record.wav')
+    except:
+        print("No recording found")
+        exit()
+    # Create audio data
+    with audio_ex as source:
+        audiodata = recognizer.record(audio_ex) 
+    # Extract text
+    try:
+        text = recognizer.recognize_google(audio_data=audiodata, language=original_lang)
+    except:
+        print("Error: Can't recognize")
+        exit()
+
+    translated = GoogleTranslator(source=original_lang, target=translate_lang).translate(text)
+    return text, translated
 
 def clean_text(text):
     text = re.sub(r'\*.*?\*', '', text)
