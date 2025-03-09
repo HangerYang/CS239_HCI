@@ -34,10 +34,7 @@ Besides that, we also received positive feedback for the UI design because it is
 Overall, the pilot session highlighted both strengths and areas for improvement, helping refine the platform for a better user experience.
 
 
-2.  **\[+0.5\] Involve another pilot user outside of the course. Include
-    > 0.5-1p of notes on this second pilot user. Summarize in a few
-    > sentences: What happened? Why? What changes do you need to make to
-    > your system before the next pilot?**
+2.  **\[+0.5\] Involve another pilot user outside of the course. Include 0.5-1p of notes on this second pilot user. Summarize in a few sentences: What happened? Why? What changes do you need to make to your system before the next pilot?**
 
 Pilot user: Zoie You
 After the first pilot user session, we changed the functionality of saving and displaying the past conversation, now the user can review their past conversations in the user profile, ideally, we will also add the lesson and critique session to the page for the user to review more information. 
@@ -56,21 +53,15 @@ through the evaluation?**
 
 Here are a few things we want to learn through evaluations:
 
-1.  How well can the model hold a conversation with the user/ How easy
-    > is it for the user to start practicing?
+1.  How well can the model hold a conversation with the user/ How easy is it for the user to start practicing?
 
-2.  Does our program motivate users more to continue learning their
-    > language?
+2.  Does our program motivate users more to continue learning their language?
 
 **2. \[+0.5\] What metrics will you use to answer the above research
 questions? Why are these metrics appropriate? What are the benefits and
 drawbacks of using these metrics?**
 
-- **Requirements: You are required to conduct a mixed-methods study
-  > where you collect qualitative and quantitative data. In your
-  > response to this question, describe what kind of data (e.g.,
-  > open-ended survey, interview, time, clicks, etc.) will be useful for
-  > answering your motivating questions.**
+- **Requirements: You are required to conduct a mixed-methods study where you collect qualitative and quantitative data. In your response to this question, describe what kind of data (e.g., open-ended survey, interview, time, clicks, etc.) will be useful for answering your motivating questions.**
 
 Quantitatively, we plan to collect data similar to our surveys, with
 checkboxes of scales ranging from 1-5 on different measures, such as how
@@ -97,18 +88,15 @@ providing specific information for what we can most improve on.
 
 **3. \[+1\] Specify a plan for recruiting participants.**
 
-- **How will you contact participants (e.g., mailing lists, in-person,
-  > etc)?**
+- **How will you contact participants (e.g., mailing lists, in-person, etc)?**
 
 - **What are your inclusion/exclusion criteria for participants?**
 
-- **Will you include participants you interviewed for user research? Why
-  > or why not?**
+- **Will you include participants you interviewed for user research? Why or why not?**
 
 - **Where will you perform the evaluation?**
 
-- **What data will you collect from participants? How will you inform
-  > them of this and obtain informed consent?**
+- **What data will you collect from participants? How will you inform them of this and obtain informed consent?**
 
 Our current plan for recruiting participants is to reach out to
 interviewees and surveyees from before, asking if they would be willing
@@ -180,8 +168,7 @@ where you will be using our language learning system and conveying your
 thoughts as you use it, and an after-use session where you will fill out
 a short survey and answer a few questions based on your user experience.
 We expect the user session to take around 15 minutes and the after-use
-session to take around 10-15 minutes. **(Note: Change time estimates as
-needed)**
+session to take around 10-15 minutes.
 
 With the description of our session out of the way, do we have your
 consent to continue the evaluation?
@@ -233,21 +220,15 @@ Next, we'll move on to the second half of our evaluation session: the
 feedback portion. Here, we'll ask you a few questions on your experience
 that you had with our system:
 
-1.  On a scale of 1 to 5, with 1 being lowest and 5 being highest, how
-    > would you rate your conversation and roleplay experiences, in
-    > terms of things like naturalness and quality?
+1.  On a scale of 1 to 5, with 1 being lowest and 5 being highest, how would you rate your conversation and roleplay experiences, in terms of things like naturalness and quality?
 
-2.  On a scale of 1 to 5 (1 = lowest, 5 = highest), how helpful do you
-    > think this tool would be for your own language learning journey?
+2.  On a scale of 1 to 5 (1 = lowest, 5 = highest), how helpful do you think this tool would be for your own language learning journey?
 
-3.  For the previous two questions, is there anything you would like to
-    > elaborate on?
+3.  For the previous two questions, is there anything you would like to elaborate on?
 
-4.  Do you wish to provide any other sort of feedback, both in terms of
-    > what went well and what should be improved on? Please elaborate if
-    > yes.
+4.  Do you wish to provide any other sort of feedback, both in terms of what went well and what should be improved on? Please elaborate if yes.
 
-5.  Any other questions? **(Note: Change questions if neded)**
+5.  Any other questions? 
 
 **Conclusion:**
 
