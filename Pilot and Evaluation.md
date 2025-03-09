@@ -23,15 +23,7 @@ BruinLearn. Only one person needs to submit for the group.**
 
 #### Pilot \[+1\]
 
-1.  **\[+0.5\] Present the pilot user with a brief statement of the
-    > scenario and task. Ask the pilot user to complete the task. Note:
-    > You might feel (very) nervous that something will break. That is
-    > OK. It\'s ok for the pilot user to break things as they test out
-    > your system. Be prepared to restart/recover your system when
-    > things break. Note what happened step by step. Include 0.5-1p of
-    > notes on one pilot user. Additionally, summarize in a few
-    > sentences: What happened? Why? What changes do you need to make to
-    > your system before the next pilot?**
+1.  **\[+0.5\] Present the pilot user with a brief statement of the scenario and task. Ask the pilot user to complete the task. Note: You might feel (very) nervous that something will break. That is OK. It\'s ok for the pilot user to break things as they test out your system. Be prepared to restart/recover your system when things break. Note what happened step by step. Include 0.5-1p of notes on one pilot user. Additionally, summarize in a few sentences: What happened? Why? What changes do you need to make to your system before the next pilot?**
 
 Pilot user: Yuxin Liu
 Yuxin is also majoring in computer science. With her consent, we recorded her actions and included her name in this assignment while ensuring her privacy. During the pilot session, she tested key features, including signing up for an account, selecting a language, starting a conversation, interacting with the AI agent, saving conversations, exploring different scenarios, and reviewing past lessons on the profile page.
