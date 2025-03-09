@@ -257,7 +257,7 @@ We've decided to name our system Chatty McChatFace.
 
 We've added the logo for our system as a png file. It's also here!
 
-![Logo](/Logo.png)
+![Logo](/logo.png)
 
 **Did you use a generative AI tool for this assignment? If so, which
 tool(s) and how?**
