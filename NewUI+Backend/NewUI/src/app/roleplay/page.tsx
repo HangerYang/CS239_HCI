@@ -46,67 +46,142 @@ const RoleplayPage = () => {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
-  // Initialize scenario conversation with backend
-  const initializeConversation = async (username: string, scenarioTitle: string) => {
+  const initializeConversation = async (username: string) => {
     try {
-      const scenarioResponse = await setScenario(username, scenarioTitle);
-      fetchSuggestions(username); // Initial suggestions
+      // Call backend to set scenario & get response
+      // const scenarioResponse = await setScenario(username);
+      
+      // Fetch initial response from backend
+      const response = await fetch("http://localhost:8000/api/get_scenario_response", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username }),
+      });
+  
+      const data = await response.json();
+      console.log("LLM Response:", data.response);
+  
+      // Set initial message from backend
+      setMessages([{ text: data.response, sender: "bot" }]);
+  
+      // Fetch initial suggestions
+      fetchSuggestions(username);
     } catch (error) {
       console.error("Error initializing conversation:", error);
     }
   };
-
+  
   useEffect(() => {
-    // Load the scenario from localStorage
-    const savedScenario = localStorage.getItem('currentScenario');
-    
-    if (!savedScenario) {
-      // If no scenario is found, redirect back to scenario selection
-      alert("No scenario selected. Please select a scenario first.");
-      router.push('/scenario');
-      return;
-    }
-    
-    try {
-      const parsedScenario = JSON.parse(savedScenario);
-      setScenario(parsedScenario);
-      
-      const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-        setUser(currentUser);
-        
-        const savedLocale = localStorage.getItem('locale') || 'en';
-        setUserLanguage(savedLocale);
-        
-        if (currentUser) {
-          const username = currentUser.displayName || currentUser.email?.split('@')[0] || 'Guest';
-          
-          await initializeConversation(username, parsedScenario.title);
-          setMessages([
-            { 
-              text: `Hello${currentUser.displayName ? ', ' + currentUser.displayName : ''}! I'll be your conversation partner for this ${parsedScenario.title} scenario. How can I help you today?`, 
-              sender: 'bot' 
-            }
-          ]);
-        } else {
-          setMessages([
-            { 
-              text: `Welcome to the ${parsedScenario.title} scenario! I'll be your conversation partner. How would you like to start?`, 
-              sender: 'bot' 
-            }
-          ]);
+    setLoading(true);
+  
+    const fetchUserAndScenario = async () => {
+      try {
+        // Load scenario from localStorage
+        const savedScenario = localStorage.getItem("currentScenario");
+  
+        if (!savedScenario) {
+          alert("No scenario selected. Please select a scenario first.");
+          router.push("/scenario");
+          return;
         }
-        
-        setLoading(false);
-      });
-      
-      return () => unsubscribe();
-    } catch (error) {
-      console.error("Error parsing scenario:", error);
-      alert("There was a problem loading the scenario. Please try again.");
-      router.push('/scenario');
-    }
+  
+        const parsedScenario = JSON.parse(savedScenario);
+        setScenario(parsedScenario);
+  
+        // Authenticate user
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+          setUser(currentUser);
+  
+          // Get language preference (from localStorage or backend)
+          const savedLocale = localStorage.getItem("locale") || "en";
+          setUserLanguage(savedLocale);
+  
+          if (currentUser) {
+            const username =
+              currentUser.displayName ||
+              currentUser.email?.split("@")[0] ||
+              "Guest";
+  
+            console.log("👤 User authenticated:", username);
+  
+            // Initialize conversation (calls backend for scenario & LLM response)
+            await initializeConversation(username);
+          }
+  
+          setLoading(false);
+        });
+  
+        return () => unsubscribe();
+      } catch (error) {
+        console.error("Error loading user scenario:", error);
+        alert("There was a problem loading the scenario. Please try again.");
+        router.push("/scenario");
+      }
+    };
+  
+    fetchUserAndScenario();
   }, []);
+  
+  // // Initialize scenario conversation with backend
+  // const initializeConversation = async (username: string, scenarioTitle: string) => {
+  //   try {
+  //     const scenarioResponse = await setScenario(username, scenarioTitle);
+  //     fetchSuggestions(username); // Initial suggestions
+  //   } catch (error) {
+  //     console.error("Error initializing conversation:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   // Load the scenario from localStorage
+  //   const savedScenario = localStorage.getItem('currentScenario');
+    
+  //   if (!savedScenario) {
+  //     // If no scenario is found, redirect back to scenario selection
+  //     alert("No scenario selected. Please select a scenario first.");
+  //     router.push('/scenario');
+  //     return;
+  //   }
+    
+  //   try {
+  //     const parsedScenario = JSON.parse(savedScenario);
+  //     setScenario(parsedScenario);
+      
+  //     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+  //       setUser(currentUser);
+        
+  //       const savedLocale = localStorage.getItem('locale') || 'en';
+  //       setUserLanguage(savedLocale);
+        
+  //       if (currentUser) {
+  //         const username = currentUser.displayName || currentUser.email?.split('@')[0] || 'Guest';
+          
+  //         await initializeConversation(username, parsedScenario.title);
+  //         setMessages([
+  //           { 
+  //             text: `Hello${currentUser.displayName ? ', ' + currentUser.displayName : ''}! I'll be your conversation partner for this ${parsedScenario.title} scenario. How can I help you today?`, 
+  //             sender: 'bot' 
+  //           }
+  //         ]);
+  //       } else {
+  //         setMessages([
+  //           { 
+  //             text: `Welcome to the ${parsedScenario.title} scenario! I'll be your conversation partner. How would you like to start?`, 
+  //             sender: 'bot' 
+  //           }
+  //         ]);
+  //       }
+        
+  //       setLoading(false);
+  //     });
+      
+  //     return () => unsubscribe();
+  //   } catch (error) {
+  //     console.error("Error parsing scenario:", error);
+  //     alert("There was a problem loading the scenario. Please try again.");
+  //     router.push('/scenario');
+  //   }
+  // }, []);
 
   // Fetch updated conversation suggestions from backend
   const fetchSuggestions = async (username: string) => {

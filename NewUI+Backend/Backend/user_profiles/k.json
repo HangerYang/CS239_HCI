@@ -1,8 +1,19 @@
 {
     "username": "k",
-    "scenario": "The user is in a job interview for a software engineering position.",
-    "chat_history": [],
+    "scenario": "\u7528\u6237\u6b63\u5728\u9762\u8bd5\u8f6f\u4ef6\u5de5\u7a0b\u5e08\u804c\u4f4d\u3002",
+    "chat_history": [
+        {
+            "user": "\u4f60\u597d",
+            "ai": "\u9762\u8bd5\u5b98\uff1a \u4f60\u597d\uff01\u6b22\u8fce\u6765\u5230\u6211\u4eec\u7684\u9762\u8bd5\u3002\u8bf7\u95ee\u4f60\u80fd\u7b80\u5355\u4ecb\u7ecd\u4e00\u4e0b\u81ea\u5df1\u5417\uff1f",
+            "timestamp": "2025-03-09T14:25:01.487931"
+        },
+        {
+            "user": "\u6211\u662fHanger\uff0c\u5f88\u9ad8\u5174\u8ba4\u8bc6\u4f60",
+            "ai": "\u9762\u8bd5\u5b98\uff1a \u5f88\u9ad8\u5174\u89c1\u5230\u4f60\uff0cHanger\u3002\u8bf7\u95ee\u4f60\u6709\u54ea\u4e9b\u76f8\u5173\u7684\u6280\u672f\u80cc\u666f\u548c\u5de5\u4f5c\u7ecf\u9a8c\u5462\uff1f",
+            "timestamp": "2025-03-09T14:25:12.137341"
+        }
+    ],
     "lesson": [],
-    "ai_role": "An interviewer",
+    "ai_role": "\u9762\u8bd5\u5b98",
     "language": "Chinese"
 }

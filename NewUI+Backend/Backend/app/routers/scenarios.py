@@ -7,7 +7,7 @@ import sys
 # Add the parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from utils import load_user_profile, save_user_profile, infer_ai_role
-from prompts import DEFAULT_SCENARIOS
+from prompts import DEFAULT_SCENARIOS, LANGUAGE_MAP
 
 # Get llm from main
 from app.main import llm
@@ -36,10 +36,9 @@ async def set_scenario(request: ScenarioRequest):
     if language != "none":
         user_profile["language"] = language
     # Load user profile
-    
     if request.scenario in DEFAULT_SCENARIOS.keys():
-        user_profile["scenario"] = DEFAULT_SCENARIOS[request.scenario]["desc"]
-        user_profile["ai_role"] = DEFAULT_SCENARIOS[request.scenario]["role"]
+        user_profile["scenario"] = DEFAULT_SCENARIOS[request.scenario][user_profile["language"]]["desc"]
+        user_profile["ai_role"] = DEFAULT_SCENARIOS[request.scenario][user_profile["language"]]["role"]
     else:
         # Update scenario
         user_profile["scenario"] = scenario

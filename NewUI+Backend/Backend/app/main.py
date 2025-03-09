@@ -63,7 +63,7 @@ llm = pipeline(
 # API models
 class ChatRequest(BaseModel):
     username: str
-    message: str
+    message: Optional[str] = None
     scenario: Optional[str] = None
     ai_role: Optional[str] = None
     language: str = "en"
@@ -128,25 +128,7 @@ async def chat(request: ChatRequest):
         llm = init_llm()
     username = request.username
     message = request.message
-    # language = "zh-CN"
-    # print(language)
-    # Load user profile
     user_profile = load_user_profile(username)
-    # if request.scenario in DEFAULT_SCENARIOS.keys():
-    #     user_profile["scenario"] = DEFAULT_SCENARIOS[request.scenario]["desc"]
-    #     user_profile["ai_role"] = DEFAULT_SCENARIOS[request.scenario]["role"]
-
-    # Update scenario if provided
-    # if request.scenario:
-    #     user_profile["scenario"] = request.scenario
-    
-    # Update AI role if provided
-    # if request.ai_role:
-    #     user_profile["ai_role"] = request.ai_role
-    
-    # if request.language:
-    #     user_profile["language"] = request.language
-    # Make sure we have required fields
     if not user_profile.get("scenario"):
         raise HTTPException(status_code=400, detail="Scenario not set for this user")
     
@@ -216,6 +198,69 @@ async def chat(request: ChatRequest):
     return {
         "response": response,
         "audio_url": f"/audio/{audio_file}"
+    }
+@app.post("/api/get_scenario_response", response_model=ChatResponse)
+async def get_scenario_response(request: ChatRequest):
+    global llm
+    if llm is None:
+        llm = init_llm()
+
+    username = request.username
+    
+    # Load user profile
+    user_profile = load_user_profile(username)
+    if not user_profile:
+        raise HTTPException(status_code=400, detail="User profile not found")
+
+    # Retrieve scenario and language from the backend
+    scenario = user_profile.get("scenario")
+    language = user_profile.get("language", "en")  # Default to English if not set
+
+    if not scenario:
+        raise HTTPException(status_code=400, detail="Scenario not set for this user")
+
+    # Get AI role and description from predefined scenarios
+    ai_role = DEFAULT_SCENARIOS.get(scenario, {}).get(language, {}).get("role", "A conversation partner")
+    scenario_desc = DEFAULT_SCENARIOS.get(scenario, {}).get(language, {}).get("desc", scenario)
+
+    # Create prompt for LLM
+    prompt = f"""You are {ai_role} in the following scenario: {scenario_desc}.
+    Respond in {language} only. You are strictly prohibited from using any other language.
+    How would you respond to start a natural conversation in this scenario?"""
+
+    formatted_prompt = [{"role": "user", "content": prompt}]
+    
+    # Generate response from LLM
+    try:
+        response = llm(
+            formatted_prompt,
+            do_sample=True,
+            top_k=50,
+            top_p=0.7,
+            num_return_sequences=1,
+            repetition_penalty=1.1,
+            max_new_tokens=100,
+        )[0]['generated_text'][1]["content"]
+    except Exception as e:
+        print(f"Error generating response: {e}")
+        response = "I'm having trouble thinking of a response. Can you try again?"
+
+    # Generate audio file (optional)
+    audio_file = f"response-{uuid.uuid4()}.mp3"
+    audio_path = os.path.join(SOUND_RESPONSE_DIR, audio_file)
+    
+    try:
+        from gtts import gTTS
+        voiced_response = clean_text(response)
+        tts = gTTS(text=voiced_response, lang=LANGUAGE_MAP.get(language, "en"), slow=False)
+        tts.save(audio_path)
+    except Exception as e:
+        print(f"Error generating audio: {e}")
+        audio_path = None
+
+    return {
+        "response": response,
+        "audio_url": f"/audio/{audio_file}" if audio_path else None
     }
 
 # Import routers from separate files

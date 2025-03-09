@@ -94,7 +94,47 @@ const CustomScenarioDetailPage = () => {
       router.push('/scenario');
     }
   };
-
+  // const loadScenarioDetails = async (currentUser: User) => {
+  //   try {
+  //     const username = currentUser.displayName || currentUser.email?.split('@')[0] || 'Guest';
+  
+  //     // Fetch user profile from backend
+  //     const response = await getUserProfile(username);
+      
+  //     if (response && response.data && !response.error) {
+  //       const customScenarios = response.data.custom_scenarios || [];
+        
+  //       // Find the selected scenario by index
+  //       const scenarioIndex = parseInt(scenarioId);
+  //       const selectedScenario = customScenarios[scenarioIndex];
+  
+  //       if (!selectedScenario) {
+  //         throw new Error("Scenario not found");
+  //       }
+  
+  //       setScenarioTitle(selectedScenario.title || `Custom Scenario ${scenarioIndex + 1}`);
+  //       setScenarioDescription(selectedScenario.description || "");
+  
+  //       // Fetch AI-generated response from backend
+  //       const aiResponse = await fetch("http://localhost:8000/api/get_scenario_response", {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({ username }),
+  //       });
+  
+  //       const data = await aiResponse.json();
+  
+  //       setMessages([{ text: data.response, sender: "bot" }]);
+  //     } else {
+  //       throw new Error("Error loading user profile");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error loading scenario:", error);
+  //     alert("There was a problem loading this scenario. Returning to scenario selection.");
+  //     router.push('/scenario');
+  //   }
+  // };
+  
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
