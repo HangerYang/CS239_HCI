@@ -62,12 +62,14 @@ export async function getLanguageLessons(username: string) {
   });
 }
 
-export async function setScenario(username: string, scenario: string, description?: string) {
+export async function setScenario(username: string, scenario: string, language?: string, description?: string) {
+  const finalLanguage = language || "none"
   return fetchAPI<{scenario: string, ai_role: string}>('/api/scenario/set', {
     method: 'POST',
     body: JSON.stringify({ 
       username, 
       scenario,
+      language: language || "none",
       description
     }),
   });

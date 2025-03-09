@@ -8,7 +8,7 @@ PROFILE_DIR = "user_profiles"
 SOUND_RESPONSE_DIR = "sound_responses"
 
 LANGUAGE_MAP = {
-    'en': 'English',
-    'zh': 'Chinese',
-    'ja': 'Japanese'
+    'English': 'en',
+    'Chinese': 'zh',
+    'Japanese': 'ja'
 }

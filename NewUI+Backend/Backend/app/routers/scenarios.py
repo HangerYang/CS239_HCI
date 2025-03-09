@@ -10,7 +10,7 @@ from utils import load_user_profile, save_user_profile, infer_ai_role
 from prompts import DEFAULT_SCENARIOS
 
 # Get llm from main
-from app.main import init_llm
+from app.main import llm
 
 router = APIRouter(
     prefix="/api",
@@ -20,6 +20,7 @@ router = APIRouter(
 class ScenarioRequest(BaseModel):
     username: str
     scenario: str
+    language: str
 
 class ScenarioResponse(BaseModel):
     scenario: str
@@ -27,15 +28,15 @@ class ScenarioResponse(BaseModel):
 
 @router.post("/scenario/set", response_model=ScenarioResponse)
 async def set_scenario(request: ScenarioRequest):
-    # Get llm
-    llm = init_llm()
-    print(llm)
+    global llm
     username = request.username
     scenario = request.scenario
-    # print("Here")
-    # print(request)
-    # Load user profile
+    language = request.language
     user_profile = load_user_profile(username)
+    if language != "none":
+        user_profile["language"] = language
+    # Load user profile
+    
     if request.scenario in DEFAULT_SCENARIOS.keys():
         user_profile["scenario"] = DEFAULT_SCENARIOS[request.scenario]["desc"]
         user_profile["ai_role"] = DEFAULT_SCENARIOS[request.scenario]["role"]

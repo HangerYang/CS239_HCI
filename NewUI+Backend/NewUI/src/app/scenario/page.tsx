@@ -35,7 +35,7 @@ const ScenarioPage = () => {
       custom: false
     },
     {
-      id: 'interview',
+      id: 'job_interview',
       title: 'Job Interview',
       description: 'Practice for a job interview',
       created_at: new Date().toISOString(),
@@ -147,7 +147,7 @@ const ScenarioPage = () => {
     try {
       const username = user.displayName || user.email?.split('@')[0] || 'Guest';
       
-      await setScenario(username, scenario.title);
+      const response = await setScenario(username, scenario.id);
       
       // Navigate to the customed scenario page
       if (scenario.custom) {

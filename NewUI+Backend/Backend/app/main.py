@@ -10,7 +10,6 @@ import uuid
 from datetime import datetime
 import dotenv
 import torch
-from utils import talk_agent
 from transformers import pipeline, AutoTokenizer,AutoModelForCausalLM
 from transformers.generation.utils import GenerationConfig
 import os
@@ -89,6 +88,7 @@ class LessonResponse(BaseModel):
 class ScenarioRequest(BaseModel):
     username: str
     scenario: str
+    language: str
 
 class ScenarioResponse(BaseModel):
     scenario: str
@@ -126,10 +126,8 @@ async def chat(request: ChatRequest):
     global llm
     if llm is None:
         llm = init_llm()
-    print(llm)
     username = request.username
     message = request.message
-    language = request.language
     # language = "zh-CN"
     # print(language)
     # Load user profile
@@ -154,6 +152,7 @@ async def chat(request: ChatRequest):
     
     if not user_profile.get("ai_role"):
         user_profile["ai_role"] = infer_ai_role(user_profile["scenario"], llm)
+    language = user_profile['language']
     
     # Build conversation history
     formatted_history = ""
@@ -167,12 +166,12 @@ async def chat(request: ChatRequest):
     
     # Create the prompt
     content = f"""You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}.
-    Continue the conversation with you roleplaying as the {user_profile['ai_role']} using only {LANGUAGE_MAP[language]}. You are strictly prohibited from using any other language.
-    No matter what language the user inputs, you must always respond exclusively in {LANGUAGE_MAP[language]}.
+    Continue the conversation with you roleplaying as the {user_profile['ai_role']} using only {language}. You are strictly prohibited from using any other language.
+    No matter what language the user inputs, you must always respond exclusively in {language}.
     The chat history is as follows: {formatted_history}"""
 
     formatted_prompt = [{"role": "user", "content": content}]
-    print(formatted_prompt)
+    # print(formatted_prompt)
     # Generate response
     response = llm(
     formatted_prompt,
@@ -210,7 +209,7 @@ async def chat(request: ChatRequest):
     
     from gtts import gTTS
     voiced_response = clean_text(response)
-    tts = gTTS(text=voiced_response, lang=language, slow=False)
+    tts = gTTS(text=voiced_response, lang=LANGUAGE_MAP[language], slow=False)
     tts.save(audio_path)
     
     # Return response

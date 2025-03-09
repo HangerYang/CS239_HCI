@@ -81,8 +81,8 @@ const MainPage = () => {
         localStorage.setItem('locale', localeMap[selectedLanguage]);
         
         // Create the user profile on the backend if it doesn't exist
-        await setScenario(userName, "Default conversation");
-      
+        await setScenario(userName, "Default conversation", selectedLanguage);
+  
         router.push('/choose');
       } catch (error) {
         console.error("Error initializing user:", error);
