@@ -257,7 +257,7 @@ We've decided to name our system Chatty McChatFace.
 
 We've added the logo for our system as a png file. It's also here!
 
-![](media/image1.png){width="6.5in" height="3.236111111111111in"}
+![](Chatty Logo.png)
 
 **Did you use a generative AI tool for this assignment? If so, which
 tool(s) and how?**
