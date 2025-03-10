@@ -8,6 +8,7 @@ import { auth } from "../../../server/firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { getUserProfile } from '@/services/api';
 
+
 const ChoosePage = () => {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
@@ -193,8 +194,8 @@ const ChoosePage = () => {
               <h1 className="text-xl font-bold text-gray-800">
                 <TypewriterEffect 
                   text={user?.displayName 
-                    ? `Welcome, ${user.displayName}! How do you want to practice ${getDisplayLanguage(userLanguage)}?` 
-                    : `Welcome! How do you want to practice ${getDisplayLanguage(userLanguage)}?`}
+                    ? `Welcome, ${user.displayName}! How do you want to practice today?` 
+                    : `Welcome! How do you want to practice today?`}
                   delay={30}
                   startTyping={true}
                 />

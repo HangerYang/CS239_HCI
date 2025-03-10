@@ -124,145 +124,6 @@ def infer_ai_role(scenario_description, llm): # returns suggestions
     )[0]['generated_text'][1]["content"]
     return response if response else "assistant" 
 
-# def talk_agent(username, llm, language="en"):
-#     user_profile = load_user_profile(username)
-
-#     # Select or set a scenario
-#     if not user_profile["scenario"]:
-#         print("Choose a scenario:")
-#         for key in DEFAULT_SCENARIOS:
-#             print(f"- {key}: {DEFAULT_SCENARIOS[key]['desc']}")
-#             # user input scenario
-#         scenario_key = input("Enter scenario name (or type 'custom' to create your own): ").strip().lower()
-
-#         if scenario_key in DEFAULT_SCENARIOS:
-#             user_profile["scenario"] = DEFAULT_SCENARIOS[scenario_key]["desc"]
-#             user_profile["ai_role"] = DEFAULT_SCENARIOS[scenario_key]["role"] #Set up role
-#         else:
-#             user_profile["scenario"] = input("Describe your custom scenario: ")
-#             user_profile["ai_role"] = infer_ai_role(user_profile["scenario"], llm)
-#         save_user_profile(user_profile)
-#         # print(f"Scenario set: {user_profile['scenario']}")
-#         # print(f"AI will play: {user_profile['ai_role']}")
-
-#     else:  # Existing user, infer role if missing
-#         print("EXISTING USER")
-#         if not user_profile.get("ai_role"):
-#             print("CREATING AI ROLE")
-#             user_profile["ai_role"] = infer_ai_role(user_profile["scenario"], llm)
-#             save_user_profile(user_profile)
-
-#     formatted_prompt = f"""
-#     <s>[INST] <<SYS>>
-#     You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}
-#     Start the conversation with you roleplaying as the assistant role. You must be friendly to the user.
-#     Your answer must NOT contain any text other than the response. Do NOT copy the prompt into your response.
-#     <</SYS>>
-#     [/INST]"""
-#     print("\nChat started! Type 'return' to pause.\n")
-#     origin_response = llm(
-#         formatted_prompt,
-#         do_sample=True,
-#         top_k=50,
-#         top_p=0.7,
-#         num_return_sequences=1,
-#         repetition_penalty=1.1,
-#         max_new_tokens=100,
-#     )[0]['generated_text']
-#     num = 0
-#     response = origin_response.split('[/INST]')[-1].strip() #Generate Response
-#     voiced_response = clean_text(response)
-#     return_voice = gTTS(text=voiced_response, lang=language, slow=False)
-#     return_voice.save(f"{SOUND_RESPONSE_DIR}/new_response-{num}.mp3")
-#     num += 1
-#     print(f"CHATTY:{response}")
-#     #print(f"{user_profile['ai_role']}: {response}")
-#     # print(f"AI ({user_profile['ai_role']}): {response}")
-#     formatted_history = "You: " + response + '\n'
-#     user_profile["chat_history"].append({"user": "AI INITIATED", "ai": response})
-#     save_user_profile(user_profile) #Save Response
-#     while True:
-#         # actual interaction
-#         user_input = input("You: ")
-        
-#         if user_input.lower() == "return":
-#             print("Chat paused. You can resume later.")
-#             save_user_profile(user_profile)
-#             break
-#         if user_input.lower() == "suggest line":
-#             token_num = 256
-#             formatted_prompt = f"""
-#             <s>[INST] <<SYS>>
-#             You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}
-#             The chat history is as followed: {formatted_history}
-#             The user is in an ongoing conversation and needs help continuing it naturally.
-#             Given the last ai response, generate three possible ways the user could reply next.
-#             Each response should be a complete sentence that the user might actually say in the conversation.
-#             Do NOT provide conversation suggestions—only full user replies. Format the responses as a numbered list, with each on a separate line."
-#             <</SYS>>
-#             [/INST]"""
-#             # formatted_prompt = f"[Scenario]: {user_profile['scenario']}\n\n"
-#             # formatted_prompt += f"### Assistant ({user_profile['ai_role']})\n"
-#             # formatted_prompt += f"Give three suggestions to how the user can respond to the following line for the above scenario: {response}\n"
-#             # formatted_prompt += "Provide your suggestions in the form of a numbered list with each entry in a separate line. Do NOT include any other text."
-#             # formatted_prompt += "Post your response here:"
-#         elif user_input.lower() == "lesson":
-#             token_num = 1024
-#             formatted_prompt = f"""
-#             <s>[INST] <<SYS>>
-#             You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}.
-#             The chat history is as follows: {formatted_history}.            
-#             Based on the conversation, provide three grammar-related lessons or points of improvement for the user. If there are mistakes, correct them and explain why. If there are no clear mistakes, focus on refining phrasing, improving fluency, or teaching a fun grammar-related lesson.
-#             Additionally, provide a brief and kind critique of the user's language use, highlighting both strengths and areas for improvement.
-#             Format your response as follows:
-            
-#             Critique: [Brief, kind feedback]
-            
-#             Grammar Lessons:
-#             1. [Lesson 1]
-#             2. [Lesson 2]
-#             3. [Lesson 3]
-
-#             Post your response here:
-#             <</SYS>>
-#             [/INST]"""
-#             user_profile['lesson'].append(formatted_prompt)
-#         else:
-#             token_num = 100
-#             formatted_history += "User: " + user_input + '\n'
-#             formatted_prompt = f"""
-#             <s>[INST] <<SYS>>
-#             You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}
-#             Continue the conversation with you roleplaying as the assistant role. Only provide your own response. You must be friendly to the user.
-#             The chat history is as followed: {formatted_history}
-#             <</SYS>>
-#             [/INST]"""
-#         response = llm(
-#             formatted_prompt,
-#             do_sample=True,
-#             top_k=50,
-#             top_p=0.7,
-#             num_return_sequences=1,
-#             repetition_penalty=1.1,
-#             max_new_tokens=token_num,
-#             )[0]['generated_text'].split('[/INST]')[-1].strip()
-#         # breakpoint()
-#         if response == "":
-#             print("Whoops! CHATTY is being lazy here. Can you repeat your response?")
-#             voiced_response = "Whoops! CHATTY is being lazy here. Can you repeat your response?"
-#         elif user_input.lower() == "suggest line":
-#             print(f"Suggested Lines:\n{response}")
-#         elif user_input.lower() == "lesson":
-#             print(f"Lessons:\n{response}")
-#         else:
-#             print(f"CHATTY:{response}")
-#             voiced_response = clean_text(response)
-#             user_profile["chat_history"].append({"user": user_input, "ai": response})
-#             save_user_profile(user_profile)
-#             formatted_history += "You: " + response + '\n'
-#         return_voice = gTTS(text=voiced_response, lang=language, slow=False)
-#         return_voice.save(f"{SOUND_RESPONSE_DIR}/new_response-{num}.mp3")
-#         num += 1
 def get_lesson(username, llm):
     # Get llm
     
@@ -388,7 +249,12 @@ def generate_suggestion(username, llm):
     user_profile = load_user_profile(username)
     language = user_profile['language']
     if not user_profile.get("chat_history") or len(user_profile["chat_history"]) == 0:
-        return {"suggestions": ["Hello, how are you?", "Nice to meet you!", "What would you like to talk about?"]}
+        if language == "Chinese":
+            return {"suggestions": ["你好，你今天怎么样？", "很高兴认识你！", "你想聊些什么？"]}
+        elif language == "Japanese":
+            return {"suggestions": ["こんにちは、お元気ですか？", "はじめまして！", "何について話したいですか？"]}
+        else:  # Default to English
+            return {"suggestions": ["Hello, how are you?", "Nice to meet you!", "What would you like to talk about?"]}
     
     # Build formatted history for the last few exchanges
     formatted_history = ""
@@ -398,8 +264,8 @@ def generate_suggestion(username, llm):
             formatted_history += f"User: {entry['user']}\n"
         formatted_history += f"You: {entry['ai']}\n"
     # Create prompt for suggestions
-    print("STAT")
-    print(language)
+    # print("STAT")
+    # print(language)
     formatted_prompt = f"""
     You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}
     The chat history is as followed: {formatted_history}
@@ -414,21 +280,21 @@ def generate_suggestion(username, llm):
     2. [Suggestion 2]
     3. [Suggestion 3]
     Post your response here:"""
-    print(formatted_prompt)
+    # print(formatted_prompt)
     suggestions = []
     tries = 0
     while len(suggestions) < 3 and tries < 3: #Repeat until we get 3 suggestions or 3 tries
         suggestion_text = llm(
             formatted_prompt,
             do_sample=True,
-            top_k=50,
-            top_p=0.7,
+            top_k=100,
+            top_p=0.85,
             num_return_sequences=1,
-            repetition_penalty=1.1,
-            max_new_tokens=256, #Maybe change parameters if     
+            repetition_penalty=1.05,
+            max_new_tokens=1024, #Maybe change parameters if     
         )[0]['generated_text']
         print("TEXT " + str(tries))
-        print(suggestion_text)
+        # print(suggestion_text)
         suggestion_text = suggestion_text.split('Suggestions:')[-1].strip()
         # Parse suggestions
 
@@ -442,7 +308,7 @@ def generate_suggestion(username, llm):
                         suggestion = line[len(prefix):].strip()
                         suggestions.append(suggestion)
                         break
-        print("Original Suggestions")
+        # print("Original Suggestions")
         if not suggestions or any("[Suggestion" in s for s in suggestions):
             for line in suggestion_text.split("\n"):
                 line = line.strip()
@@ -454,14 +320,31 @@ def generate_suggestion(username, llm):
         tries += 1
         
     while len(suggestions) < 3:
-        fallbacks = [
+        print("Failed Completely")
+        fallbacks_by_language = {
+        "English": [
             "I understand what you're saying.",
             "That's interesting. Can you tell me more?",
             "I agree with your perspective.",
             "What do you think about this?",
             "Could you explain that differently?"
+        ],
+        "Chinese": [  # Chinese (Simplified)
+            "我明白你的意思。",
+            "这很有趣，你能详细说说吗？",
+            "我同意你的观点。",
+            "你怎么看这个问题？",
+            "你能换一种方式解释吗？"
+        ],
+        "Japanese": [  # Japanese
+            "あなたの言っていることは分かります。",
+            "それは興味深いですね。もう少し詳しく教えてもらえますか？",
+            "私もそう思います。",
+            "このことについてどう思いますか？",
+            "別の言い方で説明してもらえますか？"
         ]
-        for fallback in fallbacks:
+    }
+        for fallback in fallbacks_by_language[language]:
             if fallback not in suggestions:
                 suggestions.append(fallback)
                 if len(suggestions) >= 3:

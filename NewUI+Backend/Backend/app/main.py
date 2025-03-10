@@ -116,6 +116,8 @@ def init_llm():
         print(f"Error loading model: {str(e)}")
         raise e
 
+
+
 @app.get("/")
 async def root():
     return {"message": "Language Learning API is running"}
@@ -164,7 +166,15 @@ async def chat(request: ChatRequest):
     repetition_penalty=1.1,
     max_new_tokens=100,
 )[0]['generated_text'][1]["content"]
-    
+    # Define possible colon variations
+    colon_variants = [":", "："]  # English `:` and full-width `：`
+
+    # Find the first matching colon and split the response
+    for colon in colon_variants:
+        if colon in response:
+            response = response.split(colon, 1)[-1].strip()
+            break  # Stop after the first successful split
+
     if not response:
         if language == 'en':
             response = "I'm thinking about what to say. Could you please repeat your question?"
