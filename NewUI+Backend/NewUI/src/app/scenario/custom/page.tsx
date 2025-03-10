@@ -78,7 +78,7 @@ const CustomScenarioPage = () => {
       }
       
       // Navigate back to scenarios page
-      router.push('/scenario');
+      router.push('/roleplay');
     } catch (error) {
       console.error("Error creating custom scenario:", error);
       alert("There was a problem creating your custom scenario. Please try again.");
@@ -193,9 +193,9 @@ const CustomScenarioPage = () => {
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Describe what this scenario is about..."
+                placeholder="Describe what this scenario is about, and who do you want your Chatty to be!"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#48d1cc] min-h-[100px]"
-                maxLength={200}
+                maxLength={500}
               />
             </div>
             

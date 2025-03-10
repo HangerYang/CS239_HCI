@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from typing import Dict, List
+from typing import Dict, List, Optional
 import os
 import sys
 
@@ -21,7 +21,7 @@ class ScenarioRequest(BaseModel):
     username: str
     scenario: str
     language: str
-    description: str
+    description: Optional[str] = "Default description"
 
 class ScenarioResponse(BaseModel):
     scenario: str
@@ -43,13 +43,12 @@ async def set_scenario(request: ScenarioRequest):
         user_profile["ai_role"] = DEFAULT_SCENARIOS[scenario][language]["role"]
     else:
         # Update scenario
-        user_profile["scenario"] = scenario
+        user_profile["scenario"] = scenario_description
         # Infer AI role based on scenario
-        user_profile["ai_role"] = infer_ai_role(scenario, llm)
+        user_profile["ai_role"] = infer_ai_role(scenario_description, llm)
     
     # Reset chat history for new scenario
     user_profile["chat_history"] = []
-    
     # Save user profile
     save_user_profile(user_profile)
     

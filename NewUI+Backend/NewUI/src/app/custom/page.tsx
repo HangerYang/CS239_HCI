@@ -33,7 +33,7 @@ const CustomScenario = () => {
     return () => unsubscribe();
   }, []);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setScenario(event.target.value);
   };
 
@@ -98,14 +98,22 @@ const CustomScenario = () => {
             </h1>
           </div>
           
-          <input
+          {/* <input
             type="text"
             value={scenario}
             onChange={handleInputChange}
             className="w-full p-4 border border-gray-300 rounded-lg mb-6 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#48d1cc] focus:border-transparent"
             onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
+          /> */}
+          <textarea
+          value={scenario}
+          onChange={handleInputChange}
+          className="w-full p-4 border border-gray-300 rounded-lg mb-6 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#48d1cc] focus:border-transparent resize-none"
+          rows={4}  // Allows multiple lines of input
+          maxLength={1000}  // Increase the character limit
+          placeholder="Describe your custom scenario..."
+          onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && handleSubmit()} // Allows enter key to submit without shift
           />
-          
           <button
             onClick={handleSubmit}
             className="w-full bg-[#48d1cc] hover:bg-[#20b2aa] text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center"

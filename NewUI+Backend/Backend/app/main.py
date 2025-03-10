@@ -27,7 +27,7 @@ os.makedirs(SOUND_RESPONSE_DIR, exist_ok=True)
 
 # Initialize FastAPI
 app = FastAPI(title="Language Learning API", 
-              description="API for language learning conversations with AI")
+              description="API for language learning conversations with Chatty")
 
 app.add_middleware(
     CORSMiddleware,
@@ -141,18 +141,19 @@ async def chat(request: ChatRequest):
     # Build conversation history
     formatted_history = ""
     for entry in user_profile.get("chat_history", []):
-        if entry["user"] != "AI INITIATED":
+        if entry["user"] != "Chatty INITIATED":
             formatted_history += f"User: {entry['user']}\n"
-        formatted_history += f"You: {entry['ai']}\n"
+        formatted_history += f"You: {entry['Chatty']}\n"
     
     # Add current user message
     formatted_history += f"User: {message}\n"
     
     # Create the prompt
-    content = f"""You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}.
+    content = f"""Your name is Chatty, and you are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}.
     Continue the conversation with you roleplaying as the {user_profile['ai_role']} using only {language}. You are strictly prohibited from using any other language.
     No matter what language the user inputs, you must always respond exclusively in {language}.
-    The chat history is as follows: {formatted_history}"""
+    The chat history is as follows: {formatted_history}
+    Have fun with the user!"""
 
     formatted_prompt = [{"role": "user", "content": content}]
     # print(formatted_prompt)
@@ -188,7 +189,7 @@ async def chat(request: ChatRequest):
     # Update conversation history
     user_profile["chat_history"].append({
         "user": message,
-        "ai": response,
+        "Chatty": response,
         "timestamp": datetime.now().isoformat()
     })
     
@@ -229,7 +230,7 @@ async def get_scenario_response(request: ChatRequest):
     if not scenario:
         raise HTTPException(status_code=400, detail="Scenario not set for this user")
 
-    # Get AI role and description from predefined scenarios
+    # Get Chatty role and description from predefined scenarios
     ai_role = DEFAULT_SCENARIOS.get(scenario, {}).get(language, {}).get("role", "A conversation partner")
     scenario_desc = DEFAULT_SCENARIOS.get(scenario, {}).get(language, {}).get("desc", scenario)
 

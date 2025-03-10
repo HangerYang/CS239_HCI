@@ -114,15 +114,34 @@ def save_user_profile(user_profile):
     
 
 
-def infer_ai_role(scenario_description, llm): # returns suggestions
-    content = f"Based on the following scenario, what role should the AI play?\n\nScenario: {scenario_description}\n\nAI Role:"
+import re
+
+def infer_ai_role(scenario_description, llm): 
+    # Check if user explicitly states the role in the scenario
+    match = re.search(r"The chatty should be (.+?)(\.|!|$)", scenario_description, re.IGNORECASE)
+    if match:
+        extracted_role = match.group(1).strip()
+        return extracted_role  # Use explicitly provided role
+    
+    # Generate AI role suggestion from LLM
+    content = f"Your name is Chatty, and you are doing roleplay with the user based on the following scenario: {scenario_description}, what role should you play?\n\nScenario: {scenario_description}\n\nChatty (single word or short phrase only):"
     formatted_prompt = [{"role": "user", "content": content}]
+    
     response = llm(
         formatted_prompt,
         do_sample=False, 
         max_new_tokens=100,
-    )[0]['generated_text'][1]["content"]
-    return response if response else "assistant" 
+    )[0]['generated_text'][1]["content"].strip()
+
+    # Extract only the first short phrase (avoid long explanations)
+    response = response.split(".")[0].strip()  
+
+    # If AI response is too long or unclear, fall back to "pass"
+    if len(response.split()) > 5:  # If it's a long sentence
+        response = "pass"
+    
+    return response if response else "pass"  # Ensure a fallback
+
 
 def get_lesson(username, llm):
     # Get llm
@@ -143,12 +162,12 @@ def get_lesson(username, llm):
     # Build formatted history
     formatted_history = ""
     for entry in user_profile["chat_history"][-10:]:  # Use last 10 entries
-        if entry["user"] != "AI INITIATED":
+        if entry["user"] != "Chatty INITIATED":
             formatted_history += f"User: {entry['user']}\n"
-        formatted_history += f"You: {entry['ai']}\n"
+        formatted_history += f"You: {entry['Chatty']}\n"
     # Create prompt for lesson
     formatted_prompt = f"""
-    You are playing the role of a conversational partner in the following scenario: {user_profile['scenario']}.
+    Your name is Chatty and you are playing the role of a conversational partner in the following scenario: {user_profile['scenario']}.
     The chat history is as follows: {formatted_history}.            
     Provide three lessons for the user to improve their grammar. If there are mistakes, correct them and explain why.
     If there are no clear mistakes, focus on refining phrasing, improving fluency, or teaching a fun grammar-related lesson.
@@ -260,17 +279,17 @@ def generate_suggestion(username, llm):
     formatted_history = ""
     recent_history = user_profile["chat_history"][-5:] if len(user_profile["chat_history"]) > 5 else user_profile["chat_history"]
     for entry in recent_history:
-        if entry["user"] != "AI INITIATED":
+        if entry["user"] != "Chatty INITIATED":
             formatted_history += f"User: {entry['user']}\n"
-        formatted_history += f"You: {entry['ai']}\n"
+        formatted_history += f"You: {entry['Chatty']}\n"
     # Create prompt for suggestions
     # print("STAT")
     # print(language)
     formatted_prompt = f"""
-    You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}
+    Your name is Chatty, and you are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}
     The chat history is as followed: {formatted_history}
     The user is in an ongoing conversation and needs help continuing it naturally.
-    Given the last ai response, generate three possible ways in {language} the user could reply next.
+    Given the previous chatty responses as his role of {user_profile['ai_role']}, generate three possible ways in {language} the user could reply next.
     Each response should be one complete sentence that the user might actually say in the conversation.
     No matter what language the user inputs, you must always respond exclusively in {language}.
     Do NOT provide conversation suggestions—only full user replies. 
