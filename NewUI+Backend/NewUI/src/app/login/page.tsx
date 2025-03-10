@@ -49,7 +49,7 @@ export default function AuthPage() {
       <div className="max-w-md w-full bg-white rounded-xl shadow-2xl overflow-hidden">
         
         <div className="p-8">         
-        <div className = "text-center text-3xl p-4"> Chatty {isLogin ? "Login" : "Sign Up"} </div>
+        <div className = "text-center text-3xl text-black p-4"> Chatty {isLogin ? "Login" : "Sign Up"} </div>
           {error && (
             <div className="bg-red-50 text-red-600 rounded-lg p-3 mb-4 text-sm flex items-center">
               <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">

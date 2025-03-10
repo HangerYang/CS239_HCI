@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { auth } from "../../../server/firebase";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { sendChatMessage, getSuggestions, setScenario } from '@/services/api';
+import Dictionary from '@/components/Dictionary';
 
 interface Scenario {
   id: string;
@@ -333,15 +334,15 @@ const RoleplayPage = () => {
       });
       
       localStorage.setItem(scenarioType, JSON.stringify(savedConversations));
-      router.push('/text');
+      router.push('/scenario');
     } catch (error) {
       console.error("Error saving conversation:", error);
-      router.push('/text');
+      router.push('/scenario');
     }
   };
 
   const handleDiscardConversation = () => {
-    router.push('/text');
+    router.push('/scenario');
   };
 
   // Apply suggestion to input
@@ -447,7 +448,7 @@ const RoleplayPage = () => {
       
       <div className="pt-24 px-4 max-w-6xl mx-auto">
         <div className="flex gap-4">
-          {/* Conversation area */}
+          {/* Conversation area - left side */}
           <div className="w-[65%]">
             <div className="h-[70vh] bg-[#f0f8ff] rounded-xl p-6 overflow-y-auto mb-4">
               <div className="flex flex-col space-y-4">
@@ -513,15 +514,6 @@ const RoleplayPage = () => {
                     )}
                   </div>
                 ))}
-                {isLoading && (
-                  <div className="flex justify-start">
-                    <div className="flex items-center space-x-2 bg-gray-100 rounded-lg px-4 py-2">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
-                    </div>
-                  </div>
-                )}
                 <div ref={messagesEndRef} />
               </div>
             </div>
@@ -572,13 +564,12 @@ const RoleplayPage = () => {
               </button>
             </div>
           </div>
-
-          {/* Suggestions panel */}
-          <div className="w-[35%]">
-            <div className="h-[70vh] bg-[#f0f8ff] rounded-xl p-6 overflow-y-auto mb-4">
-
-              <h3 className="text-lg font-semibold text-gray-800 mb-3">Suggested Responses</h3>
-              
+          
+          {/* Right side panel with suggestions and dictionary */}
+          <div className="w-[35%] flex flex-col gap-4">
+            {/* Suggestions panel */}
+            <div className="h-[34vh] bg-[#f0f8ff] rounded-xl p-6 overflow-y-auto">
+              <h3 className="text-m font-medium text-gray-800 mb-3">Suggestions</h3>
               {suggestionList.length > 0 ? (
                 <div className="space-y-3">
                   {suggestionList.map((suggestion, index) => (
@@ -599,6 +590,22 @@ const RoleplayPage = () => {
                   <p className="text-gray-500">Suggestions will appear here after you start chatting.</p>
                 </div>
               )}
+            </div>
+            
+            {/* Dictionary panel */}
+            <div className="h-[34vh] bg-[#f0f8ff] rounded-xl p-6 overflow-y-auto mb-2">
+              <h3 className="text-m font-medium text-gray-800 mb-3">Dictionary</h3>
+              <Dictionary/>
+            </div>
+
+            {/* Lessons button */}
+            <div className="mt-0">
+              <button
+                onClick={() => router.push('/lesson')}
+                className="w-full bg-[#20b2aa] hover:bg-[#008080] py-3 rounded-lg text-white font-medium transition-colors"
+              >
+                Go to Lessons
+              </button>
             </div>
           </div>
         </div>
