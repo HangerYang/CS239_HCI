@@ -226,15 +226,15 @@ const ConversationPage = () => {
         });
         localStorage.setItem('conversations', JSON.stringify(savedConversations));
       }
-      router.push('/text');
+      router.push('/choose');
     } catch (error) {
       console.error("Error saving conversation:", error);
-      router.push('/text');
+      router.push('/choose');
     }
   };
 
   const handleDiscardConversation = () => {
-    router.push('/text');
+    router.push('/choose');
   };
   
   const navigateToDashboard = () => {
@@ -470,8 +470,10 @@ const ConversationPage = () => {
               </button>
             </div>
           </div>
-          <div className="w-[35%]">
-            <div className="h-[70vh] bg-[#f0f8ff] rounded-xl p-6 overflow-y-auto mb-4">
+          <div className="w-[35%] flex flex-col gap-4">
+            {/* Suggestions panel */}
+            <div className="h-[34vh] bg-[#f0f8ff] rounded-xl p-6 overflow-y-auto">
+              <h3 className="text-m font-medium text-gray-800 mb-3">Suggestions</h3>
               {suggestionList.length > 0 ? (
                 <div className="space-y-3">
                   {suggestionList.map((suggestion, index) => (
@@ -493,11 +495,24 @@ const ConversationPage = () => {
                 </div>
               )}
             </div>
+            
+            {/* Dictionary panel */}
+            <div className="h-[34vh] bg-[#f0f8ff] rounded-xl p-6 overflow-y-auto mb-2">
+              <h3 className="text-m font-medium text-gray-800 mb-3">Dictionary</h3>
+              <Dictionary />
+            </div>
+
+            {/* Lessons button */}
+            <div className="mt-0">
+              <button
+                onClick={() => router.push('/lesson')}
+                className="w-full bg-[#20b2aa] hover:bg-[#008080] py-3 rounded-lg text-white font-medium transition-colors"
+              >
+                Go to Lessons
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <Dictionary></Dictionary>
       </div>
       
       {showModal && (

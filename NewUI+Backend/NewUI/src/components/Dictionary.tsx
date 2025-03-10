@@ -54,41 +54,40 @@ const Dictionary = () => {
   };
 
   return (
-    <div className="w-[35%] h-[70vh] bg-[#f0f8ff] rounded-xl p-6 overflow-y-auto mb-4 flex flex-col justify-between min-h-screen p-8 bg-white text-black">
-      <div className="flex-grow">
-        <h1 className="text-3xl font-bold mb-4">Dictionary</h1>
+    <div className="flex flex-col h-full">
+      <div className="flex-grow overflow-y-auto mb-3">
         {loading ? (
           <p className="text-gray-500">Looking up "{word}"...</p>
         ) : error ? (
           <p className="text-red-500">{error}</p>
         ) : result.word ? (
-          <div className="p-6 bg-gray-100 rounded-lg shadow-lg">
-            <h2 className="text-4xl font-bold mb-4">{result.word}</h2>
-            <div className="mb-4">
-              <h3 className="text-xl font-semibold text-[#48d1cc]">Definition:</h3>
-              <p className="text-gray-800">{result.definition}</p>
+          <div className="p-4 bg-gray-100 rounded-lg shadow-sm">
+            <h2 className="text-2xl font-bold mb-2 text-black">{result.word}</h2>
+            <div className="mb-2">
+              <h3 className="text-md font-semibold text-[#48d1cc]">Definition:</h3>
+              <p className="text-gray-800 text-sm">{result.definition}</p>
             </div>
             <div>
-              <h3 className="text-xl font-semibold text-[#48d1cc]">Example Usage:</h3>
-              <p className="text-gray-800 italic">{result.example}</p>
+              <h3 className="text-md font-semibold text-[#48d1cc]">Example Usage:</h3>
+              <p className="text-gray-800 italic text-sm">{result.example}</p>
             </div>
           </div>
         ) : (
-          <p className="text-gray-400">Search for a word to get its definition.</p>
+          <p className="text-gray-400 text-center">Search for a word to get its definition.</p>
         )}
       </div>
 
-      <form onSubmit={handleSearch} className="left-0 w-35% p-4 bg-gray-100 shadow-md flex">
+      <form onSubmit={handleSearch} className="flex">
         <input
           type="text"
           value={word}
           onChange={(e) => setWord(e.target.value)}
           placeholder="Enter a word..."
-          className="flex-grow p-3 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#48d1cc]"
+          className="flex-grow p-2 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#48d1cc] text-black text-sm"
         />
         <button
           type="submit"
-          className="bg-[#48d1cc] text-white px-6 rounded-r-lg hover:bg-[#008080] transition-all"
+          className="bg-[#48d1cc] text-white px-4 py-2 rounded-r-lg hover:bg-[#008080] transition-all text-sm"
         >
           Search
         </button>
