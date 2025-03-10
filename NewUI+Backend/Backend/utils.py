@@ -383,7 +383,7 @@ def get_lesson(username, llm):
         "critique": critique,
         "lessons": lessons[:3]  # Return top 3 lessons
     }
-
+#INCORPORATED LOOP/TRIES TO SEE IF REPEATING WILL WORK. ORIGINAL GENERATE_SUGGESTION FUNCTION BELOW IF YOU WANT TO REPLACE
 def generate_suggestion(username, llm):
     user_profile = load_user_profile(username)
     language = user_profile['language']
@@ -398,12 +398,14 @@ def generate_suggestion(username, llm):
             formatted_history += f"User: {entry['user']}\n"
         formatted_history += f"You: {entry['ai']}\n"
     # Create prompt for suggestions
+    print("STAT")
+    print(language)
     formatted_prompt = f"""
     You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}
     The chat history is as followed: {formatted_history}
     The user is in an ongoing conversation and needs help continuing it naturally.
     Given the last ai response, generate three possible ways in {language} the user could reply next.
-    Each response should be a complete sentence that the user might actually say in the conversation.
+    Each response should be one complete sentence that the user might actually say in the conversation.
     No matter what language the user inputs, you must always respond exclusively in {language}.
     Do NOT provide conversation suggestions—only full user replies. 
     Format your response as follows:
@@ -412,37 +414,45 @@ def generate_suggestion(username, llm):
     2. [Suggestion 2]
     3. [Suggestion 3]
     Post your response here:"""
-    suggestion_text = llm(
-        formatted_prompt,
-        do_sample=True,
-        top_k=50,
-        top_p=0.7,
-        num_return_sequences=1,
-        repetition_penalty=1.1,
-        max_new_tokens=256,
-    )[0]['generated_text']
-    suggestion_text = suggestion_text.split('Suggestions:')[-1].strip()
-    # Parse suggestions
-    print(suggestion_text)
+    print(formatted_prompt)
     suggestions = []
-    for line in suggestion_text.split("\n"):
-        line = line.strip()
-        if line and (line.startswith("1.") or line.startswith("2.") or line.startswith("3.") or line.startswith("-")):
-            for prefix in ["1.", "2.", "3.", "-", " "]:
-                if line.startswith(prefix):
-                    if "[Suggestion" in line:
-                        continue
-                    suggestion = line[len(prefix):].strip()
-                    suggestions.append(suggestion)
-                    break
-    if not suggestions or any("[Suggestion" in s for s in suggestions):
+    tries = 0
+    while len(suggestions) < 3 and tries < 3: #Repeat until we get 3 suggestions or 3 tries
+        suggestion_text = llm(
+            formatted_prompt,
+            do_sample=True,
+            top_k=50,
+            top_p=0.7,
+            num_return_sequences=1,
+            repetition_penalty=1.1,
+            max_new_tokens=256, #Maybe change parameters if     
+        )[0]['generated_text']
+        print("TEXT " + str(tries))
+        print(suggestion_text)
+        suggestion_text = suggestion_text.split('Suggestions:')[-1].strip()
+        # Parse suggestions
+
         for line in suggestion_text.split("\n"):
             line = line.strip()
-            if line.startswith("User:"):
-                fallback_suggestion = line[len("User:"):].strip()
-                if fallback_suggestion:
-                    suggestions = [fallback_suggestion]  # Replace with User content
-                    break  # Only take the first "User:" found
+            if line and (line.startswith("1.") or line.startswith("2.") or line.startswith("3.") or line.startswith("-")):
+                for prefix in ["1.", "2.", "3.", "-", " "]:
+                    if line.startswith(prefix):
+                        if "[Suggestion" in line:
+                            continue
+                        suggestion = line[len(prefix):].strip()
+                        suggestions.append(suggestion)
+                        break
+        print("Original Suggestions")
+        if not suggestions or any("[Suggestion" in s for s in suggestions):
+            for line in suggestion_text.split("\n"):
+                line = line.strip()
+                if line.startswith("User:"):
+                    fallback_suggestion = line[len("User:"):].strip()
+                    if fallback_suggestion:
+                        suggestions = [fallback_suggestion]  # Replace with User content
+                        break  # Only take the first "User:" found
+        tries += 1
+        
     while len(suggestions) < 3:
         fallbacks = [
             "I understand what you're saying.",
@@ -458,3 +468,85 @@ def generate_suggestion(username, llm):
                     break
     
     return {"suggestions": suggestions[:3]}
+
+# #ORIGINAL
+# def generate_suggestion(username, llm):
+#     user_profile = load_user_profile(username)
+#     language = user_profile['language']
+#     if not user_profile.get("chat_history") or len(user_profile["chat_history"]) == 0:
+#         return {"suggestions": ["Hello, how are you?", "Nice to meet you!", "What would you like to talk about?"]}
+    
+#     # Build formatted history for the last few exchanges
+#     formatted_history = ""
+#     recent_history = user_profile["chat_history"][-5:] if len(user_profile["chat_history"]) > 5 else user_profile["chat_history"]
+#     for entry in recent_history:
+#         if entry["user"] != "AI INITIATED":
+#             formatted_history += f"User: {entry['user']}\n"
+#         formatted_history += f"You: {entry['ai']}\n"
+#     # Create prompt for suggestions
+#     print("STAT")
+#     print(user_profile['ai_role'])
+#     print(user_profile['scenario'])
+#     print(language)
+#     print(formatted_history)
+#     formatted_prompt = f"""
+#     You are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}
+#     The chat history is as followed: {formatted_history}
+#     The user is in an ongoing conversation and needs help continuing it naturally.
+#     Given the last ai response, generate three possible ways in {language} the user could reply next.
+#     Each response should be a complete sentence that the user might actually say in the conversation.
+#     No matter what language the user inputs, you must always respond exclusively in {language}.
+#     Do NOT provide conversation suggestions—only full user replies. 
+#     Format your response as follows:
+#     Suggestions:
+#     1. [Suggestion 1]
+#     2. [Suggestion 2]
+#     3. [Suggestion 3]
+#     Post your response here:"""
+#     suggestion_text = llm(
+#         formatted_prompt,
+#         do_sample=True,
+#         top_k=50,
+#         top_p=0.7,
+#         num_return_sequences=1,
+#         repetition_penalty=1.1,
+#         max_new_tokens=256,
+#     )[0]['generated_text']
+#     suggestion_text = suggestion_text.split('Suggestions:')[-1].strip()
+#     # Parse suggestions
+#     print("TEXT")
+#     print(suggestion_text)
+#     suggestions = []
+#     for line in suggestion_text.split("\n"):
+#         line = line.strip()
+#         if line and (line.startswith("1.") or line.startswith("2.") or line.startswith("3.") or line.startswith("-")):
+#             for prefix in ["1.", "2.", "3.", "-", " "]:
+#                 if line.startswith(prefix):
+#                     if "[Suggestion" in line:
+#                         continue
+#                     suggestion = line[len(prefix):].strip()
+#                     suggestions.append(suggestion)
+#                     break
+#     if not suggestions or any("[Suggestion" in s for s in suggestions):
+#         for line in suggestion_text.split("\n"):
+#             line = line.strip()
+#             if line.startswith("User:"):
+#                 fallback_suggestion = line[len("User:"):].strip()
+#                 if fallback_suggestion:
+#                     suggestions = [fallback_suggestion]  # Replace with User content
+#                     break  # Only take the first "User:" found
+#     while len(suggestions) < 3:
+#         fallbacks = [
+#             "I understand what you're saying.",
+#             "That's interesting. Can you tell me more?",
+#             "I agree with your perspective.",
+#             "What do you think about this?",
+#             "Could you explain that differently?"
+#         ]
+#         for fallback in fallbacks:
+#             if fallback not in suggestions:
+#                 suggestions.append(fallback)
+#                 if len(suggestions) >= 3:
+#                     break
+    
+#     return {"suggestions": suggestions[:3]}
