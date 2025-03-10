@@ -11,6 +11,7 @@ const CustomScenarioPage = () => {
   const [loading, setLoading] = useState(true);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [userLanguage, setUserLanguage] = useState<string>('en');
+  const [aiRole, setAiRole] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [isSaving, setIsSaving] = useState(false);
@@ -21,13 +22,11 @@ const CustomScenarioPage = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      
       const savedLocale = localStorage.getItem('locale') || 'en';
       setUserLanguage(savedLocale);
-      
       setLoading(false);
     });
-    
+
     return () => unsubscribe();
   }, []);
 
@@ -37,7 +36,7 @@ const CustomScenarioPage = () => {
         setShowProfileMenu(false);
       }
     }
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -45,7 +44,7 @@ const CustomScenarioPage = () => {
   const handleBackClick = () => {
     router.push('/scenario');
   };
-  
+
   const navigateToDashboard = () => {
     router.push('/dashboard');
     setShowProfileMenu(false);
@@ -56,28 +55,35 @@ const CustomScenarioPage = () => {
       alert("Please enter a title for your scenario");
       return;
     }
-    
+
     if (!user) {
       alert("You must be logged in to create a custom scenario");
       router.push('/login');
       return;
     }
-    
+
     setIsSaving(true);
-    
+
     try {
       const username = user.displayName || user.email?.split('@')[0] || 'Guest';
-      
+      const scenario = title.trim();  // Change title to scenario (backend expects this)
+      const language = userLanguage || "en"; // Ensure language is provided
+      const ai_role = aiRole.trim() || "assistant"; // Match backend's expected key
+
       const response = await createCustomScenario(
         username, 
-        title.trim(), 
-        description.trim() || `Custom scenario: ${title.trim()}`
+        scenario, // Send as scenario instead of title
+        description.trim() || `Custom scenario: ${scenario}`,
+        ai_role,
+        language
+        
       );
+
       if (response.error) {
         throw new Error(response.error);
       }
-      
-      // Navigate back to scenarios page
+
+      // Navigate to the roleplay page after successful scenario creation
       router.push('/roleplay');
     } catch (error) {
       console.error("Error creating custom scenario:", error);
@@ -85,7 +91,9 @@ const CustomScenarioPage = () => {
     } finally {
       setIsSaving(false);
     }
-  };
+};
+
+
 
   if (loading) {
     return (
@@ -157,23 +165,11 @@ const CustomScenarioPage = () => {
           </div>
         )}
       </div>
-      
-      <button 
-        onClick={handleBackClick}
-        className="absolute top-8 left-24 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 flex items-center justify-center"
-      >
-        <Image
-          src="/icons/back.png"
-          alt="Back"
-          width={24}
-          height={24}
-        />
-      </button>
-      
+
       <div className="container mx-auto pt-24 px-4 max-w-2xl">
         <div className="bg-white bg-opacity-95 rounded-xl shadow-lg p-6 mb-8">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">Create Custom Scenario</h1>
-          
+
           <div className="space-y-4">
             <div>
               <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">Scenario Title</label>
@@ -186,39 +182,33 @@ const CustomScenarioPage = () => {
                 maxLength={50}
               />
             </div>
-            
+
+            <div>
+              <label htmlFor="aiRole" className="block text-sm font-medium text-gray-700 mb-1">AI Role (Optional)</label>
+              <input
+                type="text"
+                id="aiRole"
+                value={aiRole}
+                onChange={(e) => setAiRole(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#48d1cc]"
+                maxLength={100}
+              />
+            </div>
+
             <div>
               <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Description (Optional)</label>
               <textarea
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Describe what this scenario is about, and who do you want your Chatty to be!"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#48d1cc] min-h-[100px]"
                 maxLength={500}
               />
             </div>
-            
-            <div className="pt-4">
-              <button
-                onClick={handleCreateScenario}
-                disabled={!title.trim() || isSaving}
-                className={`w-full py-3 rounded-lg font-medium ${
-                  title.trim() && !isSaving
-                    ? 'bg-[#20b2aa] hover:bg-[#008080] text-white'
-                    : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                }`}
-              >
-                {isSaving ? (
-                  <span className="flex items-center justify-center">
-                    <span className="animate-spin h-5 w-5 mr-2 border-t-2 border-b-2 border-white rounded-full"></span>
-                    Creating...
-                  </span>
-                ) : (
-                  'Create Scenario'
-                )}
-              </button>
-            </div>
+
+            <button onClick={handleCreateScenario} disabled={isSaving} className="w-full bg-[#20b2aa] text-white py-3 rounded-lg">
+              {isSaving ? "Creating..." : "Create Scenario"}
+            </button>
           </div>
         </div>
       </div>

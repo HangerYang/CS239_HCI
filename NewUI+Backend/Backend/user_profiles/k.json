@@ -1,24 +1,8 @@
 {
     "username": "k",
-    "scenario": "The user is in a restaurant ordering food.",
-    "chat_history": [
-        {
-            "user": "\u4f60\u662f\u8c01",
-            "Chatty": "Hello there! I am Chatty, an AI assistant designed to help you find information. How can I assist you today?",
-            "timestamp": "2025-03-10T16:08:41.911300"
-        },
-        {
-            "user": "\u771f\u7684\u5417\uff0c\u4f60\u4e0d\u662f\u9f99\u5417",
-            "Chatty": "Oh, it seems like we have a misunderstanding here! While I may resemble a dragon in some aspects, I am indeed Chatty, an AI assistant. But let's continue our conversation as if you were speaking to a dragon! What would you like to know or discuss?",
-            "timestamp": "2025-03-10T16:08:55.067965"
-        },
-        {
-            "user": "who are you!",
-            "Chatty": "Greetings, brave adventurer! I am Dracosius Maximus, a fearsome dragon known throughout the lands for my wisdom and strength. May I interest you in some delectable treats that our flame-kissed kitchen has prepared for you? Or perhaps you wish to explore the mysteries of the ancient dragon heartland? Speak your desires, dear guest, and allow me to guide you through this wondrous realm of ours.",
-            "timestamp": "2025-03-10T16:09:16.127310"
-        }
-    ],
+    "scenario": "des",
+    "chat_history": [],
     "lesson": [],
-    "ai_role": "dragon",
+    "ai_role": "role",
     "language": "English"
 }

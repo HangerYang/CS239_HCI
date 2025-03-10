@@ -62,15 +62,16 @@ export async function getLanguageLessons(username: string) {
   });
 }
 
-export async function setScenario(username: string, scenario: string, language?: string, description?: string) {
-  console.log("Calling setScenario with:", { username, scenario, language, description })
+export async function setScenario(username: string, scenario: string, language?: string, description?: string, ai_role?: string) {
+  // console.log("Calling setScenario with:", { username, scenario, language, description, ai_role})
   return fetchAPI<{scenario: string, ai_role: string}>('/api/scenario/set', {
     method: 'POST',
     body: JSON.stringify({ 
       username, 
       scenario,
-      language: language || "none",
-      description
+      description: description || "default description",
+      ai_role: ai_role || "assistant",
+      language: language || "none"
     }),
   });
 }
@@ -87,8 +88,10 @@ export const createCustomScenario = async (
   username: string, 
   title: string, 
   description: string,
+  ai_role: string,
   language?: string
 ) => {
+  console.log("Calling createCustomScenario with:", { username, title, language, description, ai_role})
   try {
     const response = await fetch(`${API_BASE_URL}/api/scenario/set`, { 
       method: 'POST',
@@ -99,6 +102,7 @@ export const createCustomScenario = async (
         username,
         scenario: title,  
         language: language || "none",
+        ai_role,
         description
       }),
     });

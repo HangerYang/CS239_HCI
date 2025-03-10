@@ -21,6 +21,7 @@ class ScenarioRequest(BaseModel):
     username: str
     scenario: str
     language: str
+    ai_role: str
     description: Optional[str] = "Default description"
 
 class ScenarioResponse(BaseModel):
@@ -29,10 +30,12 @@ class ScenarioResponse(BaseModel):
 
 @router.post("/scenario/set", response_model=ScenarioResponse)
 async def set_scenario(request: ScenarioRequest):
+    # print(request.dict())
     global llm
     username = request.username
     scenario = request.scenario
     language = request.language
+    ai_role = request.ai_role
     scenario_description = request.description
     user_profile = load_user_profile(username)
     if language != "none":
@@ -45,8 +48,10 @@ async def set_scenario(request: ScenarioRequest):
         # Update scenario
         user_profile["scenario"] = scenario_description
         # Infer AI role based on scenario
-        user_profile["ai_role"] = infer_ai_role(scenario_description, llm)
-    
+        if ai_role == "assistant":
+            user_profile["ai_role"] = infer_ai_role(scenario_description, llm)
+        else:
+            user_profile["ai_role"] = ai_role
     # Reset chat history for new scenario
     user_profile["chat_history"] = []
     # Save user profile
