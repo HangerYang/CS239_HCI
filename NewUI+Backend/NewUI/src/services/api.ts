@@ -63,7 +63,7 @@ export async function getLanguageLessons(username: string) {
 }
 
 export async function setScenario(username: string, scenario: string, language?: string, description?: string) {
-  const finalLanguage = language || "none"
+  console.log("Calling setScenario with:", { username, scenario, language, description })
   return fetchAPI<{scenario: string, ai_role: string}>('/api/scenario/set', {
     method: 'POST',
     body: JSON.stringify({ 
@@ -86,17 +86,20 @@ export async function getDefaultScenarios() {
 export const createCustomScenario = async (
   username: string, 
   title: string, 
-  description: string
+  description: string,
+  language?: string
 ) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/user/${encodeURIComponent(username)}/scenario/custom`, {
+    const response = await fetch(`${API_BASE_URL}/api/scenario/set`, { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        title,
-        description,
+        username,
+        scenario: title,  
+        language: language || "none",
+        description
       }),
     });
 

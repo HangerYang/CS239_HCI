@@ -68,13 +68,11 @@ const CustomScenarioPage = () => {
     try {
       const username = user.displayName || user.email?.split('@')[0] || 'Guest';
       
-      // Create the custom scenario via API
       const response = await createCustomScenario(
         username, 
         title.trim(), 
         description.trim() || `Custom scenario: ${title.trim()}`
       );
-      
       if (response.error) {
         throw new Error(response.error);
       }

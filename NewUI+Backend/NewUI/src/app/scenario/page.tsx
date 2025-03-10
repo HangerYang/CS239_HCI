@@ -147,7 +147,12 @@ const ScenarioPage = () => {
     try {
       const username = user.displayName || user.email?.split('@')[0] || 'Guest';
       
-      const response = await setScenario(username, scenario.id);
+      const response = await setScenario(
+        username,
+        scenario.id,       
+        userLanguage,        
+        scenario.description
+      );
       
       // Navigate to the customed scenario page
       if (scenario.custom) {
