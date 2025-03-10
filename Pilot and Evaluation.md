@@ -26,22 +26,32 @@ BruinLearn. Only one person needs to submit for the group.**
 1.  **\[+0.5\] Present the pilot user with a brief statement of the scenario and task. Ask the pilot user to complete the task. Note: You might feel (very) nervous that something will break. That is OK. It\'s ok for the pilot user to break things as they test out your system. Be prepared to restart/recover your system when things break. Note what happened step by step. Include 0.5-1p of notes on one pilot user. Additionally, summarize in a few sentences: What happened? Why? What changes do you need to make to your system before the next pilot?**
 
 Pilot user: Yuxin Liu
+
 Yuxin is also majoring in computer science. With her consent, we recorded her actions and included her name in this assignment while ensuring her privacy. During the pilot session, she tested key features, including signing up for an account, selecting a language, starting a conversation, interacting with the AI agent, saving conversations, exploring different scenarios, and reviewing past lessons on the profile page.
+
 Yuxin started from the landing page, signed up for an account, then was directed back to the main page to choose the language she wanted to practice, she chose Japanese. She then proceeded to the conversation page and started chatting with our AI agent. During the chat, everything went very well. Chatting with the robot based on the provided suggestions is helpful, especially when the user is a beginner. However, she found some AI-generated suggestions unnatural and difficult to understand at times, as the AI did not recognize her proficiency level. Over time she felt she became more reliant on the provided suggestions while practicing, she started to only rely on the generated suggestions and not really talking to the AI independently. She suggested we add a button to hide the suggestions. As for our AI talk agent, she gave the feedback that the agent was very friendly, and the playing audio function is awesome. But voice input was non-functional due to incomplete implementation. 
+
 Then she went to the scenario roleplay page to practice. She gave the feedback that the practicing scenario session is well designed since the generated topics and conversations are focused on the given scenario and can provide some useful information as well as tips for the user. 
+
 Saving the conversation and displaying the past conversations did not work well and crashed down for once since all the past conversations are saved locally, so it was hard to load. This function does not work well. We also need to change the function and provide the lesson summary for the users in the profile page to help them review the lessons. 
+
 Besides that, we also received positive feedback for the UI design because it is very neat and straight forward, and the robot typing effect makes her feel it is a real conversation with the robot and feeling less stressed. 
+
 Overall, the pilot session highlighted both strengths and areas for improvement, helping refine the platform for a better user experience.
 
 
 2.  **\[+0.5\] Involve another pilot user outside of the course. Include 0.5-1p of notes on this second pilot user. Summarize in a few sentences: What happened? Why? What changes do you need to make to your system before the next pilot?**
 
 Pilot user: Zoie You
+
 After the first pilot user session, we changed the functionality of saving and displaying the past conversation, now the user can review their past conversations in the user profile, ideally, we will also add the lesson and critique session to the page for the user to review more information. 
+
 Next, we conducted a pilot user session with Zoie. With her consent, we recorded her actions and included her name in this assignment while ensuring her privacy. Unlike the first session, we did not assign her specific tasks. Instead, we observed her natural interaction with the website to identify any user experience issues.
+
 She first start by using the system as a guest, and then also went straight up to the conversation page and start to chatting with the robot, she chose the English to practice and then she tried to save the conversation but that function is only limited for the logged in user, so she went back to the sign up page and created an account. Then she provided the feedback that we need to add more language options for users to choose. She then went to the scenario conversation page and started an order food conversation. She also tried saving the conversation function but when she went back to the profile page, the other users’ conversations were also there. We need to fix this bug. After that she also tried creating a new scenario topic and starting the conversation, everything went very well and our robot agents are friendly and can really provide helpful suggestions. 
-Overall, she felt that the website was well-organized and easy to use, but suggested adding
-more functions and details in the website such as allowing the user to change the languages via the navigation bar, for the scenario, we can make it more interactive to add more fun to the pages. 
+
+Overall, she felt that the website was well-organized and easy to use, but suggested adding more functions and details in the website such as allowing the user to change the languages via the navigation bar, for the scenario, we can make it more interactive to add more fun to the pages. 
+
 Before our next pilot user session and demo day, we need to finish the voice input function and add the dictionary function to the conversation page, as well fix the minor issues on the website and add the lesson and critique page. These improvements will make our website more user-friendly and fully functional for language learners.
 
 
