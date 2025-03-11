@@ -198,6 +198,43 @@ const RoleplayPage = () => {
       console.error("Error fetching suggestions:", error);
     }
   };
+  const generateLessons = async () => {
+    if (!user) {
+      alert("Please log in to generate lessons.");
+      return;
+    }
+  
+    try {
+      setIsLoading(true);
+      const username = user.displayName || user.email?.split('@')[0] || 'Guest';
+      
+      console.log("Generating lessons for:", username);
+      
+      const response = await fetch('http://localhost:8000/api/get_lessons', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log("Lessons generated:", data);
+      
+      // Navigate to the lessons page
+      router.push('/lesson');
+      
+    } catch (error) {
+      console.error("Error generating lessons:", error);
+      alert("Failed to generate lessons. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -293,11 +330,6 @@ const RoleplayPage = () => {
           sender: 'bot',
           audio_url: response.data.audio_url
         }]);
-        
-        if (response.data.audio_url) {
-          // Click the speaker button to play message audio
-          playMessageAudio(messages.length, response.data.audio_url);
-        }
       }
       
       // Fetch updated suggestions after message
@@ -486,10 +518,10 @@ const RoleplayPage = () => {
                         >
                           {isPlaying === `message-${index}` ? (
                             <div className="animate-pulse">
-                              <Image src="/icons/speaker.jpg" alt="Speaker" width={24} height={24} />
+                              <Image src="/icons/speaker.png" alt="Speaker" width={24} height={24} />
                             </div>
                           ) : (
-                            <Image src="/icons/speaker.jpg" alt="Speaker" width={24} height={24} />
+                            <Image src="/icons/speaker.png" alt="Speaker" width={24} height={24} />
                           )}
                         </button>
                       )}
@@ -600,12 +632,23 @@ const RoleplayPage = () => {
 
             {/* Lessons button */}
             <div className="mt-0">
-              <button
-                onClick={() => router.push('/lesson')}
-                className="w-full bg-[#20b2aa] hover:bg-[#008080] py-3 rounded-lg text-white font-medium transition-colors"
-              >
-                Go to Lessons
-              </button>
+            <button
+              onClick={generateLessons}
+              className="w-full bg-[#20b2aa] hover:bg-[#008080] py-3 rounded-lg text-white font-medium transition-colors flex items-center justify-center"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                </>
+              ) : (
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                  Go to Lessons
+                </>
+              )}
+            </button>
             </div>
           </div>
         </div>
