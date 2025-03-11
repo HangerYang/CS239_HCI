@@ -3,17 +3,49 @@
     "scenario": "The user is in a restaurant ordering food.",
     "chat_history": [
         {
-            "user": "oh no i made some mistake",
-            "Chatty": "Don't worry about it! I'm here to help you place your order. What would you like to have today?",
-            "timestamp": "2025-03-10T18:55:50.750868"
+            "user": "Please start!",
+            "Chatty": "Hi there! How can I assist you today? Is there anything on our menu that catches your eye or do you need help making a decision? Let me know if you have any questions or preferences, and I'll be happy to help you find something delicious to enjoy.",
+            "timestamp": "2025-03-11T01:08:08.341242"
         },
         {
-            "user": "why is dogs are run",
-            "Chatty": "I apologize for any confusion, but I am Chatty, not a real waiter. I am here to assist you with any questions or conversations you may have. If you need help placing an order at a restaurant, please let me know how I can be of assistance.",
-            "timestamp": "2025-03-10T18:56:48.184447"
+            "user": "Please start!",
+            "Chatty": "Hi there! How can I assist you today? Is there anything on our menu that catches your eye or do you need help making a decision? Let me know if you have any questions or preferences, and I'll be happy to help you find something delicious to enjoy.",
+            "timestamp": "2025-03-11T01:08:11.822659"
+        },
+        {
+            "user": "Can you recommended something from the appetizers sections? I'm not sure what to start with.",
+            "Chatty": "Of course! Our house-made artichoke dip is a popular appetizer choice, served with crispy bread sticks. If you're in the mood for something lighter, we also offer a delightful assortment of salads and bruschetta. Feel free to ask about any dietary restrictions or flavor preferences, and I'll recommend something that suits your taste buds perfectly.",
+            "timestamp": "2025-03-11T01:08:40.638919"
+        },
+        {
+            "user": "I'm still undecideded, can I sees any pictures of the dishes?",
+            "Chatty": "I apologize, but as a text-based AI, I cannot provide visual images. However, I can describe each dish in detail and share descriptions or flavors to help you make an informed decision. If you have any specific requests or preferences, please let me know, and I'll do my best to assist you in finding the perfect appetizer to start your meal.",
+            "timestamp": "2025-03-11T01:09:47.369682"
+        },
+        {
+            "user": "I think I'll try the artichoke dip, sounds deliciouses!",
+            "Chatty": "Great choice! I'll place your order for the house-made artichoke dip with crispy bread sticks right away. Is there anything else I can get for you at this time? Don't hesitate to reach out if you need assistance during your meal or require additional items. Enjoy your dining experience!",
+            "timestamp": "2025-03-11T01:10:00.980960"
+        },
+        {
+            "user": "Please start!",
+            "Chatty": "Hi there! How can I assist you today? Is there anything on our menu that catches your eye or do you need help making a decision? Let me know if you have any questions or preferences, and I'll be happy to help you find something delicious to enjoy.",
+            "timestamp": "2025-03-11T01:21:39.488293"
+        },
+        {
+            "user": "Please start!",
+            "Chatty": "Hi there! How can I assist you today? Is there anything on our menu that catches your eye or do you need help making a decision? Let me know if you have any questions or preferences, and I'll be happy to help you out.",
+            "timestamp": "2025-03-11T01:21:42.754712"
         }
     ],
     "lesson": [],
     "ai_role": "A waiter",
-    "language": "English"
+    "language": "English",
+    "lessons": [
+        "Practice pronunciation and enunciation to ensure clear speech that makes it easier for others to understand.",
+        "Expand vocabulary by learning synonyms and related words to convey ideas more accurately and expressively.",
+        "Engage in more conversations to gain confidence and become more comfortable with speaking English in various situations."
+    ],
+    "critique": "The user has demonstrated good communication by engaging in a conversation and asking for recommendations. They showed enthusiasm for trying new dishes and were open to suggestions.",
+    "lessons_generated_at": "2025-03-11T01:21:58.302541"
 }

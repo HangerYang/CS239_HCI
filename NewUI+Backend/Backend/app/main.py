@@ -9,13 +9,13 @@ import sys
 import uuid
 from datetime import datetime
 import dotenv
+import re
 import torch
 from transformers import pipeline, AutoTokenizer,AutoModelForCausalLM
 from transformers.generation.utils import GenerationConfig
 import os
 import json
 from prompts import SOUND_RESPONSE_DIR, PROFILE_DIR, LANGUAGE_MAP
-import json
 dotenv.load_dotenv()
 
 # Add the parent directory to path so we can import utils
@@ -151,10 +151,10 @@ async def chat(request: ChatRequest):
     formatted_history += f"User: {message}\n"
     
     # Create the prompt
-    content = f"""Your name is Chatty, and you are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}.
-    Continue the conversation with you roleplaying as the {user_profile['ai_role']} using only {language}. You are strictly prohibited from using any other language.
-    No matter what language the user inputs, you must always respond exclusively in {language}.
-    The chat history is as follows: {formatted_history}
+    content = f"""Your name is Chatty, and you are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}.  
+    Keep your wording short, friendly, and simple. Continue roleplaying as {user_profile['ai_role']}, using only {language}. You are strictly prohibited from using any other language.  
+    Regardless of the language the user inputs, you must always respond exclusively in {language}.  
+    Chat history so far: {formatted_history}  
     Have fun with the user!"""
 
     formatted_prompt = [{"role": "user", "content": content}]
@@ -270,16 +270,16 @@ async def get_scenario_response(request: ChatRequest):
     except Exception as e:
         print(f"Error generating audio: {e}")
         audio_path = None
-
+    user_profile["chat_history"].append({
+        "user": "Please start!",
+        "Chatty": response,
+        "timestamp": datetime.now().isoformat()
+    })
+    save_user_profile(user_profile)
     return {
         "response": response,
         "audio_url": f"/audio/{audio_file}" if audio_path else None
     }
-<<<<<<< Updated upstream
-  
-=======
-
->>>>>>> Stashed changes
 @app.get("/api/user_profile")
 async def get_user_profile(username: str):
     try:
@@ -297,11 +297,6 @@ async def get_user_profile(username: str):
     except Exception as e:
         print(f"Error loading user profile: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to load user profile: {str(e)}")
-<<<<<<< Updated upstream
-      
-=======
-
->>>>>>> Stashed changes
 @app.post("/api/get_lessons")
 async def get_lessons(request: dict):
     username = request.get("username")
@@ -328,11 +323,9 @@ async def get_lessons(request: dict):
         
         # Format the conversation for analysis - prioritize recent conversations
         conversation_text = ""
-        
-        # Add messages from conversations (more recent format)
         message_pairs = []
-        
-        # First gather messages from the conversations array (newer format)
+
+        # Gather messages from the conversations array (newer format)
         for conv in conversations:
             messages = conv.get("messages", [])
             language = conv.get("language", "en")
@@ -348,7 +341,7 @@ async def get_lessons(request: dict):
         
         # Add traditional chat_history entries
         for entry in chat_history:
-            if "user" in entry and "Chatty" in entry:  # Using "Chatty" key based on your chat function
+            if "user" in entry and "Chatty" in entry:
                 message_pairs.append({
                     "user": entry["user"],
                     "ai": entry["Chatty"],
@@ -374,132 +367,118 @@ async def get_lessons(request: dict):
         print(f"Analyzing conversation with {len(message_pairs)} message pairs")
         print(f"Conversation sample: {conversation_text[:200]}...")
         
-        # Determine the primary language being used
-        language_counts = {}
-        for entry in message_pairs:
-            lang = entry.get("language", "en")
-            language_counts[lang] = language_counts.get(lang, 0) + 1
-        
-        # Find the most common language
-        primary_language = max(language_counts.items(), key=lambda x: x[1])[0] if language_counts else "en"
-        
-        language_name = {
-            'en': 'English',
-            'zh': 'Chinese (Mandarin)',
-            'zh-CN': 'Chinese (Simplified)',
-            'zh-TW': 'Chinese (Traditional)',
-            'ja': 'Japanese',
-            'ko': 'Korean',
-            'es': 'Spanish',
-            'fr': 'French',
-            'de': 'German'
-        }.get(primary_language, 'English')
-        
-        # Create prompt for your LLM
-        prompt = f"""As an expert language tutor specializing in {language_name}, analyze this conversation where the user is practicing {language_name}.
+        # Create prompt for LLM
+        prompt = f"""As an expert language tutor specializing in {user_profile['language']}, analyze this conversation where the user is practicing {user_profile['language']}.
+        Conversation:
+        {conversation_text}
 
-Conversation:
-{conversation_text}
+        Provide feedback in two parts:
+        1. CRITIQUE: A concise, constructive critique of the user's language skills (2-3 sentences)
+        2. LESSONS: 3 specific, actionable lessons to help the user improve (one sentence each)
 
-Provide feedback in two parts:
-1. CRITIQUE: A concise, constructive critique of the user's language skills (2-3 sentences)
-2. LESSONS: 3 specific, actionable lessons to help the user improve (one sentence each)
+        Format your response exactly like this:
+        CRITIQUE: [Your critique here]
 
-Format your response exactly like this:
-CRITIQUE: [Your critique here]
+        LESSONS:
+        - [First lesson]
+        - [Second lesson]
+        - [Third lesson]
 
-LESSONS:
-- [First lesson]
-- [Second lesson]
-- [Third lesson]
+        Write in English regardless of the conversation language."""
 
-Write in English regardless of the conversation language."""
+        # Use the LLM to generate analysis
+        tries = 0
+        lessons = []
+        critique = ""
 
-        # Use your Orion model instead of OpenAI
-        try:
-            formatted_prompt = [{"role": "system", "content": "You are an expert language tutor providing helpful feedback."},
-                                {"role": "user", "content": prompt}]
-            
-            # Using your global llm pipeline
-            global llm
-            if llm is None:
-                llm = init_llm()
-            
-            # Generate the analysis
-            response = llm(
-                formatted_prompt,
-                do_sample=True,
-                top_k=50,
-                top_p=0.7,
-                num_return_sequences=1,
-                repetition_penalty=1.1,
-                max_new_tokens=500,
-            )[0]['generated_text'][1]["content"]
-            
-            print(f"Analysis generated: {len(response)} characters")
-            
-            # Parse the response
-            analysis = response
-            critique = ""
-            lessons = []
-            
-            # Use regular expressions to extract critique and lessons
-            import re
-            
-            # Extract critique
-            critique_match = re.search(r'CRITIQUE:(.*?)(?=\n\nLESSONS:|\Z)', analysis, re.DOTALL)
-            if critique_match:
-                critique = critique_match.group(1).strip()
-            
-            # Extract lessons
-            lessons_match = re.search(r'LESSONS:(.*?)$', analysis, re.DOTALL)
-            if lessons_match:
-                lessons_text = lessons_match.group(1).strip()
-                lesson_items = re.findall(r'[-•*]\s*(.*?)(?=\n[-•*]|\Z)', lessons_text, re.DOTALL)
-                lessons = [item.strip() for item in lesson_items if item.strip()]
-            
-            # If parsing failed, use fallback method
-            if not critique or not lessons:
-                parts = analysis.split("\n\n", 1)
-                critique = parts[0].replace("CRITIQUE:", "").strip()
+        while len(lessons) < 3 and tries < 3:  # Retry up to 3 times
+            try:
+                formatted_prompt = [
+                    {"role": "system", "content": "You are an expert language tutor providing helpful feedback."},
+                    {"role": "user", "content": prompt}
+                ]
                 
-                if len(parts) > 1:
-                    lessons_text = parts[1].replace("LESSONS:", "").strip()
-                    lessons = [l.strip().lstrip('-•* ') for l in lessons_text.split('\n') if l.strip()]
-            
-            # Ensure we have at least one lesson
-            if not lessons:
-                lessons = ["Continue practicing to improve your skills."]
+                # Using global LLM pipeline
+                global llm
+                if llm is None:
+                    llm = init_llm()
                 
-            # Store the lessons in the user profile
-            user_profile["lessons"] = lessons
-            user_profile["critique"] = critique
-            user_profile["lessons_generated_at"] = datetime.now().isoformat()
-            
-            # Save the updated profile
-            save_user_profile(user_profile)
-            print(f"Updated user profile with lessons for {username}")
-            
-            return {
-                "critique": critique,
-                "lessons": lessons
+                # Generate response
+                response = llm(
+                    formatted_prompt,
+                    do_sample=True,
+                    top_k=50,
+                    top_p=0.7,
+                    num_return_sequences=1,
+                    repetition_penalty=1.1,
+                    max_new_tokens=500,
+                )[0]['generated_text']
+                
+                print(f"TEXT Attempt {tries}: {response}...")  # Debugging
+                analysis = response[-1]["content"].strip()
+                analysis = analysis.replace("\r", "").strip()
+                # Extract critique
+                critique_match = re.search(r'CRITIQUE:\s*(.*?)(?=\n\nLESSONS:|\Z)', analysis, re.DOTALL)
+                critique = critique_match.group(1).strip() if critique_match else "Keep practicing to improve your language skills!"
+
+                # Extract lessons
+                lessons_match = re.search(r'LESSONS:\s*(.*)', analysis, re.DOTALL)
+                lessons = []
+                if lessons_match:
+                    lessons_text = lessons_match.group(1).strip()
+                    # Match only the bullet points
+                    lesson_items = re.findall(r'-\s*(.*?)(?=\n-|$)', lessons_text, re.DOTALL)
+                    lessons = [lesson.strip() for lesson in lesson_items if lesson.strip()]
+
+                # If valid lessons were extracted, break early
+                if len(lessons) >= 3:
+                    break
+
+            except Exception as e:
+                print(f"Error generating lesson attempt {tries}: {e}")
+
+            tries += 1  # Increment attempt count
+
+        # Final fallback mechanism if model fails after 3 tries
+        if len(lessons) < 3:
+            print("Failed Completely, using fallback lessons.")
+            fallback_lessons = {
+                "English": [
+                    "Practice forming complete sentences with correct grammar.",
+                    "Expand your vocabulary by learning new words daily.",
+                    "Improve your pronunciation by listening and repeating native speech."
+                ],
+                "Chinese": [
+                    "尝试用正确的语法构造完整的句子。",
+                    "每天学习新词以扩大你的词汇量。",
+                    "通过听和重复母语者的发音来提高你的发音。"
+                ],
+                "Japanese": [
+                    "正しい文法を使って、完全な文章を作る練習をしましょう。",
+                    "新しい単語を毎日学んで、語彙を増やしましょう。",
+                    "ネイティブスピーカーの発音を聞いて、繰り返し練習しましょう。"
+                ]
             }
-            
-        except Exception as e:
-            print(f"Error generating analysis: {e}")
-            import traceback
-            traceback.print_exc()
-            return {
-                "critique": "Unable to analyze the conversation at this time.",
-                "lessons": ["Please try again later."]
-            }
-            
+            while len(lessons) < 3:
+                lessons.append(fallback_lessons[user_profile["language"]][len(lessons)])
+
+        # Save to user profile
+        user_profile["lessons"] = lessons
+        user_profile["critique"] = critique
+        user_profile["lessons_generated_at"] = datetime.now().isoformat()
+        save_user_profile(user_profile)
+
+        return {
+            "critique": critique,
+            "lessons": lessons
+        }
+
     except Exception as e:
         print(f"Error in get_lessons: {e}")
         import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Failed to generate lessons: {str(e)}")
-
+    
 # Import routers from separate files
 # This structure allows you to split your API endpoints into multiple files
 from app.routers import suggestions, lessons, scenarios
