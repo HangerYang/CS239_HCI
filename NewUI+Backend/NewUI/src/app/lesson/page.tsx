@@ -42,12 +42,14 @@ const LessonPage = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const fetchUserProfile = async (currentUser: User) => {
+
+const fetchUserProfile = async (currentUser: User) => {
     setIsLoading(true);
     try {
       const username = currentUser.displayName || currentUser.email?.split('@')[0] || 'Guest';
       
-      // Fetch user's profile JSON directly
+      console.log("Fetching profile for:", username);
+      
       const response = await fetch(`http://localhost:8000/api/user_profile?username=${encodeURIComponent(username)}`, {
         method: 'GET',
         headers: {
@@ -60,6 +62,11 @@ const LessonPage = () => {
       }
       
       const data = await response.json();
+      console.log("User profile data received:", data);
+      
+      console.log("Lessons in profile:", data.lessons);
+      console.log("Critique in profile:", data.critique);
+      
       setUserProfile(data);
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -258,41 +265,69 @@ const LessonPage = () => {
                   </div>
                 </div>
               )}
-
-              {/* Lesson Section */}
-              {userProfile.lessons && Array.isArray(userProfile.lessons) && userProfile.lessons.length > 0 ? (
-                <div>
-                  <h2 className="text-xl font-bold text-gray-800 mb-3 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-[#20b2aa]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                    </svg>
-                    Lessons
-                  </h2>
-                  <div className="bg-white rounded-lg p-4">
-                    <ul className="list-disc pl-5 space-y-1">
+                            {/* Language Learning Lessons Section */}
+                            <div className="mt-8">
+                <h2 className="text-xl font-bold text-gray-800 mb-3 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-[#20b2aa]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                  Your Language Lessons
+                </h2>
+                
+                {/* Debug info - to see what's in the userProfile */}
+                <div className="bg-white rounded-lg p-6 shadow-md mb-4" style={{display: 'none'}}>
+                  <pre className="text-xs text-gray-700 overflow-auto max-h-40">
+                    {JSON.stringify({
+                      username: userProfile?.username,
+                      hasLessons: Boolean(userProfile?.lessons),
+                      lessonsCount: userProfile?.lessons?.length,
+                      hasCritique: Boolean(userProfile?.critique),
+                      critique: userProfile?.critique?.substring(0, 50) + '...',
+                    }, null, 2)}
+                  </pre>
+                </div>
+                
+                {userProfile && userProfile.lessons && userProfile.lessons.length > 0 ? (
+                  <div className="bg-white rounded-lg p-6 shadow-md">
+                    {/* Critique section */}
+                    <div className="mb-6">
+                      <h3 className="font-semibold text-gray-800 mb-3">Personal Language Feedback</h3>
+                      <p className="text-gray-700 bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                        {userProfile.critique || "Keep practicing to improve your language skills!"}
+                      </p>
+                      
+                      {userProfile.lessons_generated_at && (
+                        <p className="text-xs text-gray-500 mt-2 text-right">
+                          Generated on {new Date(userProfile.lessons_generated_at).toLocaleString()}
+                        </p>
+                      )}
+                    </div>
+                    
+                    {/* Lessons section */}
+                    <h3 className="font-semibold text-gray-800 mb-3">Key Lessons</h3>
+                    <div className="space-y-4">
                       {userProfile.lessons.map((lesson: string, index: number) => (
-                        <li key={index} className="text-gray-700">{lesson}</li>
+                        <div key={index} className="flex bg-gray-50 p-4 rounded-lg">
+                          <div className="flex-shrink-0 w-8 h-8 mr-3 bg-[#20b2aa] rounded-full flex items-center justify-center text-white font-semibold">
+                            {index + 1}
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-gray-700">{lesson}</p>
+                          </div>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </div>
-                </div>
-              ) : userProfile.lesson && Array.isArray(userProfile.lesson) && userProfile.lesson.length > 0 ? (
-                <div>
-                  <h2 className="text-xl font-bold text-gray-800 mb-3 flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-[#20b2aa]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                ) : (
+                  <div className="bg-white rounded-lg p-6 text-center shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                     </svg>
-                    Lessons
-                  </h2>
-                  <div className="bg-white rounded-lg p-4">
-                    <ul className="list-disc pl-5 space-y-1">
-                      {userProfile.lesson.map((lesson: string, index: number) => (
-                        <li key={index} className="text-gray-700">{lesson}</li>
-                      ))}
-                    </ul>
+                    <h3 className="text-xl font-semibold text-gray-700 mb-2">No Language Lessons Found</h3>
+                    <p className="text-gray-500 mb-4">We don't see any language lessons for your conversations yet.</p>
                   </div>
-                </div>
-              ) : null}
+                )}
+              </div>
             </div>
           )}
         </div>
