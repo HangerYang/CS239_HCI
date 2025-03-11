@@ -176,11 +176,6 @@ const ConversationPage = () => {
             sender: 'bot',
             audio_url: response.data.audio_url
           }]);
-
-          if (response.data.audio_url) {
-            // Click the speaker button to play message audio
-            playMessageAudio(messages.length, response.data.audio_url);
-          }
         }
         
         await fetchSuggestions(username);
@@ -421,10 +416,10 @@ const ConversationPage = () => {
                         >
                           {isPlaying === `message-${index}` ? (
                             <div className="animate-pulse">
-                              <Image src="/icons/speaker.jpg" alt="Speaker" width={24} height={24} />
+                              <Image src="/icons/speaker.png" alt="Speaker" width={24} height={24} />
                             </div>
                           ) : (
-                            <Image src="/icons/speaker.jpg" alt="Speaker" width={24} height={24} />
+                            <Image src="/icons/speaker.png" alt="Speaker" width={24} height={24} />
                           )}
                         </button>
                       )}
