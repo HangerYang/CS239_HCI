@@ -273,7 +273,25 @@ async def get_scenario_response(request: ChatRequest):
         "response": response,
         "audio_url": f"/audio/{audio_file}" if audio_path else None
     }
-
+  
+@app.get("/api/user_profile")
+async def get_user_profile(username: str):
+    try:
+        profile_path = os.path.join(os.path.dirname(__file__), "..", "user_profiles", f"{username}.json")
+        
+        # Check if profile exists
+        if not os.path.exists(profile_path):
+            return {"username": username, "custom_scenarios": []}
+        
+        # Load profile
+        with open(profile_path, "r") as f:
+            profile = json.load(f)
+            
+        return profile
+    except Exception as e:
+        print(f"Error loading user profile: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to load user profile: {str(e)}")
+      
 # Import routers from separate files
 # This structure allows you to split your API endpoints into multiple files
 from app.routers import suggestions, lessons, scenarios
