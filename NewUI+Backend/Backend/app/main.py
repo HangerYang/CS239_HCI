@@ -14,6 +14,7 @@ from transformers import pipeline, AutoTokenizer,AutoModelForCausalLM
 from transformers.generation.utils import GenerationConfig
 import os
 from prompts import SOUND_RESPONSE_DIR, PROFILE_DIR, LANGUAGE_MAP
+import json
 dotenv.load_dotenv()
 
 # Add the parent directory to path so we can import utils
@@ -346,8 +347,13 @@ async def get_lessons(request: dict):
         
         # Add traditional chat_history entries
         for entry in chat_history:
-            if "user" in entry and "ai" in entry:
-                message_pairs.append(entry)
+            if "user" in entry and "Chatty" in entry:  # Using "Chatty" key based on your chat function
+                message_pairs.append({
+                    "user": entry["user"],
+                    "ai": entry["Chatty"],
+                    "language": user_profile.get("language", "en"),
+                    "timestamp": entry.get("timestamp", "")
+                })
         
         # Sort by timestamp if available - most recent last
         message_pairs.sort(key=lambda x: x.get("timestamp", ""), reverse=False)
@@ -388,7 +394,7 @@ async def get_lessons(request: dict):
             'de': 'German'
         }.get(primary_language, 'English')
         
-        # Generate language learning feedback using GPT-4
+        # Create prompt for your LLM
         prompt = f"""As an expert language tutor specializing in {language_name}, analyze this conversation where the user is practicing {language_name}.
 
 Conversation:
@@ -407,24 +413,37 @@ LESSONS:
 - [Third lesson]
 
 Write in English regardless of the conversation language."""
-        
+
+        # Use your Orion model instead of OpenAI
         try:
-            response = client.chat.completions.create(
-                model="gpt-4",
-                messages=[
-                    {"role": "system", "content": "You are an expert language tutor providing helpful feedback."},
-                    {"role": "user", "content": prompt}
-                ],
-                max_tokens=500,
-                temperature=0.7,
-            )
+            formatted_prompt = [{"role": "system", "content": "You are an expert language tutor providing helpful feedback."},
+                                {"role": "user", "content": prompt}]
             
-            analysis = response.choices[0].message.content
-            print(f"Analysis generated: {len(analysis)} characters")
+            # Using your global llm pipeline
+            global llm
+            if llm is None:
+                llm = init_llm()
+            
+            # Generate the analysis
+            response = llm(
+                formatted_prompt,
+                do_sample=True,
+                top_k=50,
+                top_p=0.7,
+                num_return_sequences=1,
+                repetition_penalty=1.1,
+                max_new_tokens=500,
+            )[0]['generated_text'][1]["content"]
+            
+            print(f"Analysis generated: {len(response)} characters")
             
             # Parse the response
+            analysis = response
             critique = ""
             lessons = []
+            
+            # Use regular expressions to extract critique and lessons
+            import re
             
             # Extract critique
             critique_match = re.search(r'CRITIQUE:(.*?)(?=\n\nLESSONS:|\Z)', analysis, re.DOTALL)
