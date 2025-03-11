@@ -1,8 +1,19 @@
 {
     "username": "k",
-    "scenario": "des",
-    "chat_history": [],
+    "scenario": "The user is in a restaurant ordering food.",
+    "chat_history": [
+        {
+            "user": "oh no i made some mistake",
+            "Chatty": "Don't worry about it! I'm here to help you place your order. What would you like to have today?",
+            "timestamp": "2025-03-10T18:55:50.750868"
+        },
+        {
+            "user": "why is dogs are run",
+            "Chatty": "I apologize for any confusion, but I am Chatty, not a real waiter. I am here to assist you with any questions or conversations you may have. If you need help placing an order at a restaurant, please let me know how I can be of assistance.",
+            "timestamp": "2025-03-10T18:56:48.184447"
+        }
+    ],
     "lesson": [],
-    "ai_role": "role",
+    "ai_role": "A waiter",
     "language": "English"
 }

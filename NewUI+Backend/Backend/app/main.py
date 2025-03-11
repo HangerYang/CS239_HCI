@@ -13,6 +13,7 @@ import torch
 from transformers import pipeline, AutoTokenizer,AutoModelForCausalLM
 from transformers.generation.utils import GenerationConfig
 import os
+import json
 from prompts import SOUND_RESPONSE_DIR, PROFILE_DIR, LANGUAGE_MAP
 dotenv.load_dotenv()
 
