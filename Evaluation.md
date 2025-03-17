@@ -25,8 +25,7 @@ BruinLearn. Only one person needs to submit for the group.**
 
 Your goal is to assess the usability of your system.
 
-1.  **\[+5\] Evaluate your system with at least 10 participants. Write
-    > and submit 0.5-1p of notes for each participant.**
+1.  **\[+5\] Evaluate your system with at least 10 participants. Write and submit 0.5-1p of notes for each participant.**
 
 We've placed our evaluations for each participant in an additional
 titled evaluations within our github.
@@ -38,17 +37,11 @@ titled evaluations within our github.
 
 #### After your evaluation \[+4\]
 
-1.  **\[+4\] Analyze your data and write up your key findings. The
-    > findings should be about 0.5-1p for each motivating question and
-    > any other interesting findings.**
+1.  **\[+4\] Analyze your data and write up your key findings. The findings should be about 0.5-1p for each motivating question and any other interesting findings.**
 
--   **For any qualitative data where you cannot easily remember the
-    > details of the results, a thematic analysis is required. When you
-    > conduct a thematic analysis, include your codebook.**
+-   **For any qualitative data where you cannot easily remember the details of the results, a thematic analysis is required. When you conduct a thematic analysis, include your codebook.**
 
--   **For any quantitative data, submit a script for analysis + your
-    > data. Recommendation: Create a notebook for your analysis. Someone
-    > should be able to run your notebook to reproduce your results.**
+-   **For any quantitative data, submit a script for analysis + your data. Recommendation: Create a notebook for your analysis. Someone should be able to run your notebook to reproduce your results.**
 
 Motivating Questions:\
 Here are a few things we want to learn through evaluations:
@@ -185,8 +178,7 @@ language?
 > and letting users click the sound button multiple times without
 > interruption.
 
-3.  **How, if at all, did your participants represent the personas you
-    > intended to design for?**
+3.  **How, if at all, did your participants represent the personas you intended to design for?**
 
 > Our participants came from multiple different backgrounds, and we made
 > sure to include both heritage and non heritage speakers to fully
@@ -202,8 +194,7 @@ language?
 > We could benefit from receiving feedback from a wider range of
 > participants if we wanted to survey and support multiple languages.
 
-5.  **Based on the above, what does this say about the potential
-    > applicability of your system?**
+5.  **Based on the above, what does this say about the potential applicability of your system?**
 
 > We feel that our system has potential in being used as a practice tool
 > for prospective language learners, giving them opportunities to use
