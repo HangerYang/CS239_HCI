@@ -30,10 +30,7 @@ Your goal is to assess the usability of your system.
 We've placed our evaluations for each participant in an additional
 titled evaluations within our github.
 
-2.  \[+1\] DEPTH: Evaluate with 5 more participants. Feel free to make
-    > changes to your system between the first and second round of
-    > evaluation. If you do make changes, summarize the changes you made
-    > and why.
+2.  \[+1\] DEPTH: Evaluate with 5 more participants. Feel free to make changes to your system between the first and second round of evaluation. If you do make changes, summarize the changes you made and why.
 
 #### After your evaluation \[+4\]
 
@@ -91,9 +88,7 @@ language?
 
 2.  Most of the points taken off was due to the quality of the conversational practice
 
-    a.  All users felt that the conversations felt "textbooky"
-
-        i.  Either the conversational pace was too winded, or the bot was unable to adapt to changes in conversational topics
+    a.  All users felt that the conversations felt "textbooky," where either the conversational pace was too winded, or the bot was unable to adapt to changes in conversational topics
 
     b.  We note that providing a better conversational experience may help motivate users more to continue learning, but for now the conversational still falls short in that regard
 
