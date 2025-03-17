@@ -46,18 +46,15 @@ titled evaluations within our github.
 Motivating Questions:\
 Here are a few things we want to learn through evaluations:
 
-1.  How well can the model hold a conversation with the user/ How easy
-    > is it for the user to start practicing?
+1.  How well can the model hold a conversation with the user/ How easy is it for the user to start practicing?
 
-2.  Does our program motivate users more to continue learning their
-    > language?
+2.  Does our program motivate users more to continue learning their language?
 
 ####  
 
 #### How well can the model hold a conversation with the user/ How easy is it for the user to start practicing?
 
-1.  Our language model can hold conversations with most users, but it
-    > still struggles for longer conversations
+1.  Our language model can hold conversations with most users, but it still struggles for longer conversations
 
     a.  When conversations are longer than 5-10 responses, they become
         > kind of repetitive and it's hard to drive the conversation to
@@ -71,35 +68,19 @@ Here are a few things we want to learn through evaluations:
         > stating that they didn't feel 'natural' or entirely like a
         > casual conversation.
 
-2.  Beginners feel more difficulty with our system due to longer
-    > responses that sometimes come with the model
+2.  Beginners feel more difficulty with our system due to longer responses that sometimes come with the model
 
-    a.  The dictionary does not support direct translation of longer
-        > sentences, and so beginners feel more frustration when trying
-        > to piece together longer responses from the model due to their
-        > lack of knowledge
+    a.  The dictionary does not support direct translation of longer sentences, and so beginners feel more frustration when trying to piece together longer responses from the model due to their lack of knowledge
 
-    b.  Dictionary responses also were sometimes too technical, for
-        > example when a user tried to put in "chicken," it gave a
-        > species name
+    b.  Dictionary responses also were sometimes too technical, for example when a user tried to put in "chicken," it gave a species name
 
-3.  Many people struggled with navigating the scenario practice, and
-    > they requested more information on how to best use the feature
+3.  Many people struggled with navigating the scenario practice, and they requested more information on how to best use the feature
 
-    a.  For scenario roleplay, some of our users mentioned wanting more
-        > description or context to help them along with the
-        > conversation. One example cited is that in the restaurant
-        > scenario, the user felt like having a picture of a menu or
-        > description of the restaurant itself would give them a better
-        > idea of what they can order, rather than asking the AI about
-        > recommendations/what they can order.
+    a.  For scenario roleplay, some of our users mentioned wanting more description or context to help them along with the conversation. One example cited is that in the restaurant scenario, the user felt like having a picture of a menu or description of the restaurant itself would give them a better idea of what they can order, rather than asking the AI about recommendations/what they can order.
 
-4.  When users try to come back to a different session, it feels like
-    > talking to a new "person" since the LLM does not retain much
-    > memory, and thus it affects the rapport with the LLM.
+4.  When users try to come back to a different session, it feels like talking to a new "person" since the LLM does not retain much memory, and thus it affects the rapport with the LLM.
 
-5.  The UI was easy to navigate and it was clear what the conversation
-    > practice was trying to achieve
+5.  The UI was easy to navigate and it was clear what the conversation practice was trying to achieve
 
 Does our program motivate users more to continue learning their
 language?
@@ -108,43 +89,23 @@ language?
 
     a.  Beginners felt the tool was less helpful
 
-2.  Most of the points taken off was due to the quality of the
-    > conversational practice
+2.  Most of the points taken off was due to the quality of the conversational practice
 
     a.  All users felt that the conversations felt "textbooky"
 
-        i.  Either the conversational pace was too winded, or the bot
-            > was unable to adapt to changes in conversational topics
+        i.  Either the conversational pace was too winded, or the bot was unable to adapt to changes in conversational topics
 
-    b.  We not that providing a better conversational experience may
-        > help motivate users more to continue learning, but for now the
-        > conversational still falls short in that regard
+    b.  We note that providing a better conversational experience may help motivate users more to continue learning, but for now the conversational still falls short in that regard
 
-3.  The dictionary feature was one of the most popular features,
-    > providing easy access to learning vocabulary provided a positive
-    > learning experience for users
+3.  The dictionary feature was one of the most popular features, providing easy access to learning vocabulary provided a positive learning experience for users
 
-    a.  Users appreciated that they could immediately look up words they
-        > don't know, and so the conversational practice was smoother
-        > when there are gaps in knowledge
+    a.  Users appreciated that they could immediately look up words they don't know, and so the conversational practice was smoother when there are gaps in knowledge
 
-4.  Users also appreciated the lesson feature of our system, though they
-    > mention several ways to improve this
+4.  Users also appreciated the lesson feature of our system, though they mention several ways to improve this
 
-    a.  Some users wanted more immediate feedback whenever they made
-        > mistakes in spelling or grammar. They felt like this reactive
-        > feedback would keep those suggestions more fresh in their
-        > minds and help them improve as they practiced, rather than
-        > needing to wait for the end of the conversation and going to
-        > the lessons page to review everything at once.
+    a.  Some users wanted more immediate feedback whenever they made mistakes in spelling or grammar. They felt like this reactive feedback would keep those suggestions more fresh in their minds and help them improve as they practiced, rather than needing to wait for the end of the conversation and going to the lessons page to review everything at once.
 
-    b.  Other users also noted that having lessons or suggestions
-        > focused on audio/speaking would also be of use. As of right
-        > now, our audio features are implemented by transcribing sound
-        > to text. Having AI be able to judge speaking performance
-        > directly was something users wanted to help improve their
-        > speaking proficiency, especially in aspects like
-        > pronunciation.
+    b.  Other users also noted that having lessons or suggestions focused on audio/speaking would also be of use. As of right now, our audio features are implemented by transcribing sound to text. Having AI be able to judge speaking performance directly was something users wanted to help improve their speaking proficiency, especially in aspects like pronunciation.
 
 #### Group Reflection \[+1\]
 
@@ -211,13 +172,11 @@ language?
 > length, or more specific techniques, such as matching the response
 > towards a user's individual preferences?
 
-**Did you use a generative AI tool for this assignment? If so, which
-tool(s) and how?**
+**Did you use a generative AI tool for this assignment? If so, which tool(s) and how?**
 
 No generative AI was used in this assignment.
 
-**How much time did you spend on this assignment as a group?
-Individually?**
+**How much time did you spend on this assignment as a group? Individually?**
 
 Evaluations took approximately 30 to 1 hour each, while writing up the
 corresponding notes took approximately 15 minutes each. Finishing the
