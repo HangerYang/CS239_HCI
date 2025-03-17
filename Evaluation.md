@@ -27,8 +27,7 @@ Your goal is to assess the usability of your system.
 
 1.  **\[+5\] Evaluate your system with at least 10 participants. Write and submit 0.5-1p of notes for each participant.**
 
-We've placed our evaluations for each participant in an additional
-titled evaluations within our github.
+We've placed our evaluations for each participant in an additional folder titled 'Evaluation Notes' within our github.
 
 2.  \[+1\] DEPTH: Evaluate with 5 more participants. Feel free to make changes to your system between the first and second round of evaluation. If you do make changes, summarize the changes you made and why.
 
