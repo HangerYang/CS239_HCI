@@ -10,6 +10,7 @@ const Chat = () => {
   const [messages, setMessages] = useState<Array<{text: string, sender: 'user' | 'bot'}>>([
     { text: "Hello! I'm your interview practice partner. What position are you applying for?", sender: 'bot' }
   ]);
+  const [isListening, setIsListening] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -25,6 +26,45 @@ const Chat = () => {
     "Prepare questions to ask the interviewer at the end."
   ];
 
+  const handleStartListening = () => {
+    console.log("start listening");
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      console.log('Speech recognition not supported');
+      return;
+    }
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = 'en-US';
+    recognition.maxResults = 10;
+    recognition.interimResults = true;
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setInputText(transcript);
+      console.log("set text", transcript);
+    };
+
+    recognition.onerror = (event) => {
+      console.log('Error occurred:', event.error);
+    };
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.start();
+  };
+
+  const handleStopListening = () => {
+    SpeechRecognition.stopListening();
+  };
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -284,7 +324,7 @@ const Chat = () => {
 
             <div className="flex gap-2">
               <button
-                onClick={toggleRecording}
+                onClick={handleStartListening}
                 className={`${
                   isRecording 
                     ? 'bg-red-500 hover:bg-red-600' 
@@ -295,12 +335,18 @@ const Chat = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke={isRecording ? "white" : "black"}>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
                 </svg>
-                {isRecording && (
+                {isListening && (
                   <span className="absolute top-0 right-0 flex h-3 w-3">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                   </span>
                 )}
+                {isListening && (
+      <div className="animate-pulse absolute top-0 right-0 flex h-3 w-3">
+        <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+      </div>
+    )}
               </button>
 
               <input
@@ -308,15 +354,15 @@ const Chat = () => {
                 value={inputText}
                 onChange={handleInputChange}
                 onKeyPress={handleKeyPress}
-                placeholder={isRecording ? "Listening..." : "Type your message..."}
+                placeholder={isListening ? "what....." : "Type your message..."}
                 className={`flex-1 bg-white text-black px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  isRecording ? 'animate-pulse border-2 border-red-400' : ''
+                  isListening ? 'animate-pulse border-2 border-red-400' : ''
                 }`}
-                disabled={isRecording}
+                disabled={isListening}
               />
               <button 
                 onClick={handleSendMessage}
-                disabled={isRecording}
+                disabled={isListening || loading || !inputText.trim()}
                 className="bg-[#20b2aa] hover:bg-[#008080] px-4 py-2 rounded-lg transition-colors duration-200 flex items-center justify-center disabled:opacity-50"
               >
                 <Image src="/icons/send.png" alt="Send" width={24} height={24} />
