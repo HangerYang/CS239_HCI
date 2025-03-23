@@ -60,7 +60,23 @@ This starts the backend on `http://localhost:8000`.
 
 ---
 
-### ✅ Step 6: Start the Frontend (Next.js)
+### ✅ Step 6: Add the API Key for the frontend environment
+
+Add .env file to the frontend folder, which should include
+
+NEXT_PUBLIC_APIKEY: 
+NEXT_PUBLIC_AUTHDOMAIN: 
+NEXT_PUBLIC_PROJECTID: 
+NEXT_PUBLIC_STORAGEBUCKET: 
+NEXT_PUBLIC_MESSAGINGSENDERID: 
+NEXT_PUBLIC_APPID: 
+NEXT_PUBLIC_MEASUREMENTID:
+
+You can get the API key from https://firebase.google.com/docs/projects/api-keys
+
+---
+
+### ✅ Step 7: Start the Frontend (Next.js)
 
 In a new terminal:
 
