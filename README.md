@@ -40,11 +40,6 @@ cd Backend
 pip install -r requirements.txt
 ```
 
-> If `requirements.txt` doesn’t exist yet:
-> ```bash
-> pip freeze > requirements.txt
-> ```
-
 ---
 
 ### ✅ Step 4: Install Node.js Dependencies for Frontend
