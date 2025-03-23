@@ -64,13 +64,13 @@ This starts the backend on `http://localhost:8000`.
 
 Add .env file to the frontend folder, which should include
 
-NEXT_PUBLIC_APIKEY: 
-NEXT_PUBLIC_AUTHDOMAIN: 
-NEXT_PUBLIC_PROJECTID: 
-NEXT_PUBLIC_STORAGEBUCKET: 
-NEXT_PUBLIC_MESSAGINGSENDERID: 
-NEXT_PUBLIC_APPID: 
-NEXT_PUBLIC_MEASUREMENTID:
+NEXT_PUBLIC_APIKEY: <br />
+NEXT_PUBLIC_AUTHDOMAIN: <br />
+NEXT_PUBLIC_PROJECTID: <br />
+NEXT_PUBLIC_STORAGEBUCKET: <br />
+NEXT_PUBLIC_MESSAGINGSENDERID: <br />
+NEXT_PUBLIC_APPID: <br />
+NEXT_PUBLIC_MEASUREMENTID: <br />
 
 You can get the API key from https://firebase.google.com/docs/projects/api-keys
 
