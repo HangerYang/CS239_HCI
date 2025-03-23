@@ -71,6 +71,8 @@ NEXT_PUBLIC_STORAGEBUCKET: <br />
 NEXT_PUBLIC_MESSAGINGSENDERID: <br />
 NEXT_PUBLIC_APPID: <br />
 NEXT_PUBLIC_MEASUREMENTID: <br />
+NEXT_PUBLIC_API_URL: <br />
+NEXT_PUBLIC_GEMINI_API_KEY: <br />
 
 You can get the API key from https://firebase.google.com/docs/projects/api-keys
 
