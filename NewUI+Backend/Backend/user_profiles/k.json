@@ -4,48 +4,48 @@
     "chat_history": [
         {
             "user": "Please start!",
-            "Chatty": "Hi there! How can I assist you today? Is there anything on our menu that catches your eye or do you need help making a decision? Let me know if you have any questions or preferences, and I'll be happy to help you find something delicious to enjoy.",
-            "timestamp": "2025-03-11T01:08:08.341242"
+            "Chatty": "Good evening! Welcome to our restaurant. How can I assist you today? Is there anything on the menu that catches your eye or do you need recommendations to help you make a decision?",
+            "timestamp": "2025-03-17T16:56:30.370255"
         },
         {
-            "user": "Please start!",
-            "Chatty": "Hi there! How can I assist you today? Is there anything on our menu that catches your eye or do you need help making a decision? Let me know if you have any questions or preferences, and I'll be happy to help you find something delicious to enjoy.",
-            "timestamp": "2025-03-11T01:08:11.822659"
+            "user": "tet",
+            "Chatty": "I'm sorry, but I'm not sure what \"tet\" refers to. Can you please provide more information or clarify your order? Our menu includes a variety of delicious dishes, and I'd be happy to recommend something based on your preferences.",
+            "timestamp": "2025-03-17T16:56:36.747468"
         },
         {
-            "user": "Can you recommended something from the appetizers sections? I'm not sure what to start with.",
-            "Chatty": "Of course! Our house-made artichoke dip is a popular appetizer choice, served with crispy bread sticks. If you're in the mood for something lighter, we also offer a delightful assortment of salads and bruschetta. Feel free to ask about any dietary restrictions or flavor preferences, and I'll recommend something that suits your taste buds perfectly.",
-            "timestamp": "2025-03-11T01:08:40.638919"
+            "user": "Use spanish",
+            "Chatty": "I apologize, but I am programmed to respond in English only. If you have any questions about the menu or would like a recommendation in English, feel free to ask!",
+            "timestamp": "2025-03-17T16:56:52.614252"
         },
         {
-            "user": "I'm still undecideded, can I sees any pictures of the dishes?",
-            "Chatty": "I apologize, but as a text-based AI, I cannot provide visual images. However, I can describe each dish in detail and share descriptions or flavors to help you make an informed decision. If you have any specific requests or preferences, please let me know, and I'll do my best to assist you in finding the perfect appetizer to start your meal.",
-            "timestamp": "2025-03-11T01:09:47.369682"
+            "user": "si quiera ir a espana donde necesita ir para la comida mas rica",
+            "Chatty": "I'm sorry, but I still don't understand what you mean by \"si quiera ir a espana donde necesita ir para la comida mas rica.\" Could you please rephrase your request or let me know how I can assist you further?",
+            "timestamp": "2025-03-17T17:00:02.746861"
         },
         {
-            "user": "I think I'll try the artichoke dip, sounds deliciouses!",
-            "Chatty": "Great choice! I'll place your order for the house-made artichoke dip with crispy bread sticks right away. Is there anything else I can get for you at this time? Don't hesitate to reach out if you need assistance during your meal or require additional items. Enjoy your dining experience!",
-            "timestamp": "2025-03-11T01:10:00.980960"
+            "user": "quiero una hamburguesa",
+            "Chatty": "Great choice! Our hamburguesas are made with 100% beef, grilled to perfection, and served with crispy fries. Would you like to add any toppings, such as cheese, avocado, or bacon? And may I suggest pairing it with a refreshing beverage, like a glass of sangria or a cold beer? Let me know if you need anything else, and I'll get your order ready for you. Enjoy!",
+            "timestamp": "2025-03-17T17:00:27.730836"
         },
         {
-            "user": "Please start!",
-            "Chatty": "Hi there! How can I assist you today? Is there anything on our menu that catches your eye or do you need help making a decision? Let me know if you have any questions or preferences, and I'll be happy to help you find something delicious to enjoy.",
-            "timestamp": "2025-03-11T01:21:39.488293"
+            "user": "quiero uno pinchos",
+            "Chatty": "Sure thing! Pinchos are a popular Spanish snack, typically consisting of skewered pieces of meat, fish, or vegetables, marinated in a flavorful sauce. We offer a variety of options, including pincho de pollo, pincho de tortilla, and pincho de anchovies. Which one would you like to try? Also, feel free to pair your pincho with a tasty tapa or a glass of wine. Let me know if you need anything else, and",
+            "timestamp": "2025-03-17T17:06:15.446534"
         },
         {
-            "user": "Please start!",
-            "Chatty": "Hi there! How can I assist you today? Is there anything on our menu that catches your eye or do you need help making a decision? Let me know if you have any questions or preferences, and I'll be happy to help you out.",
-            "timestamp": "2025-03-11T01:21:42.754712"
+            "user": "Can you recommend a specific pincho or tell me more about the different options you have available?",
+            "Chatty": "* Pincho de pollo: Grilled chicken skewers, topped with a creamy garlic sauce and served with a side of potatoes.\n* Pincho de tortilla: Skewers of sliced potatoes, onions, and eggs, lightly fried and drizzled with a tangy tomato sauce.\n* Pincho de anchovies: Breaded anchovies, deep-fried and served with",
+            "timestamp": "2025-03-17T17:12:58.023994"
         }
     ],
     "lesson": [],
-    "ai_role": "A waiter",
     "language": "English",
+    "ai_role": "A waiter",
     "lessons": [
-        "Practice pronunciation and enunciation to ensure clear speech that makes it easier for others to understand.",
-        "Expand vocabulary by learning synonyms and related words to convey ideas more accurately and expressively.",
-        "Engage in more conversations to gain confidence and become more comfortable with speaking English in various situations."
+        "Practice reading aloud to improve fluency and pronunciation.",
+        "Focus on correct grammar usage, especially with prepositions and verb conjugations.",
+        "Use online resources or apps for interactive vocabulary building and grammar exercises."
     ],
-    "critique": "The user has demonstrated good communication by engaging in a conversation and asking for recommendations. They showed enthusiasm for trying new dishes and were open to suggestions.",
-    "lessons_generated_at": "2025-03-11T01:21:58.302541"
+    "critique": "The user has a good start with the basic greeting and introduction but could benefit from more fluency and pronunciation practice. There are some minor grammatical errors that need to be addressed as well.",
+    "lessons_generated_at": "2025-03-17T16:35:33.461487"
 }

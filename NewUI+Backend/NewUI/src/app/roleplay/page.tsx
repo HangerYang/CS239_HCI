@@ -52,8 +52,8 @@ const RoleplayPage = () => {
     }
 
     const recognition = new SpeechRecognition();
-
-    recognition.lang = 'en-US';
+    
+    recognition.lang = 'cmn';
     recognition.maxResults = 10;
     recognition.interimResults = true;
 

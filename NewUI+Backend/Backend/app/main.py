@@ -152,7 +152,7 @@ async def chat(request: ChatRequest):
     
     # Create the prompt
     content = f"""Your name is Chatty, and you are playing the role of {user_profile['ai_role']} in the following scenario: {user_profile['scenario']}.  
-    Keep your wording short, friendly, and simple. Continue roleplaying as {user_profile['ai_role']}, using only {language}. You are strictly prohibited from using any other language.  
+    Keep your wording short, fun and simple. Continue roleplaying as {user_profile['ai_role']}, using only {language}. You are strictly prohibited from using any other language.  
     Regardless of the language the user inputs, you must always respond exclusively in {language}.  
     Chat history so far: {formatted_history}  
     Have fun with the user!"""
@@ -228,16 +228,18 @@ async def get_scenario_response(request: ChatRequest):
     # Retrieve scenario and language from the backend
     scenario = user_profile.get("scenario")
     language = user_profile.get("language", "en")  # Default to English if not set
-
+    ai_role = user_profile.get("ai_role")
+    print("test test")
+    print(scenario)
     if not scenario:
         raise HTTPException(status_code=400, detail="Scenario not set for this user")
 
     # Get Chatty role and description from predefined scenarios
-    ai_role = DEFAULT_SCENARIOS.get(scenario, {}).get(language, {}).get("role", "A conversation partner")
-    scenario_desc = DEFAULT_SCENARIOS.get(scenario, {}).get(language, {}).get("desc", scenario)
+    # ai_role = DEFAULT_SCENARIOS.get(scenario, {}).get(language, {}).get("role", "A conversation partner")
+    # scenario_desc = DEFAULT_SCENARIOS.get(scenario, {}).get(language, {}).get("desc", scenario)
 
     # Create prompt for LLM
-    prompt = f"""You are {ai_role} in the following scenario: {scenario_desc}.
+    prompt = f"""You are {ai_role} in the following scenario: {scenario}.
     Respond in {language} only. You are strictly prohibited from using any other language.
     How would you respond to start a natural conversation in this scenario?"""
 

@@ -54,8 +54,8 @@ const ConversationPage = () => {
 
     const recognition = new SpeechRecognition();
 
-    recognition.lang = 'en-US';
-    recognition.maxResults = 10;
+    recognition.lang = 'cmn';
+    recognition.maxResults = 100;
     recognition.interimResults = true;
 
     recognition.onresult = (event) => {
