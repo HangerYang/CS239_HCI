@@ -36,7 +36,6 @@ conda activate chatty-env
 ### ✅ Step 3: Install Python Dependencies
 
 ```bash
-cd Backend
 pip install -r requirements.txt
 ```
 
@@ -53,7 +52,7 @@ npm install
 ### ✅ Step 5: Start the Backend (FastAPI)
 
 ```bash
-cd ../Backend
+cd Backend
 python server.py
 ```
 
@@ -66,7 +65,7 @@ This starts the backend on `http://localhost:8000`.
 In a new terminal:
 
 ```bash
-cd NewUI+Backend/NewUI
+cd NewUI
 npm run dev
 ```
 
